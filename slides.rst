@@ -36,7 +36,7 @@ Python 3 is a dead end!
 * Some available as libraries, but not all.
 
 A common argument against Python 3 is that it makes Python 2 a dead end.
-Most people that ask for a Python 2.8 want all new Python 3 features to be backported to Python 2.
+Most people that ask for a Python 2.8 want all new Python 3 features to be backmerged to Python 2.
 So the reality is that it's Python 2 that is the dead end.
 
 Everything breaks!
@@ -57,10 +57,10 @@ Include relevant Python 3 graph here.
 You will have to spend hundreds of man-hours!
 ---------------------------------------------
 
-Well, this really depends on what you are porting, and how much of course.
-But I have ported a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
+Well, this really depends on the code you need to fix, and how much code of course.
+But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
 Well, no, not perhaps, I have spent hundreds of man hours on it.
-But these were some really hard libraries to port, and I ported them to Python 3.0 or 3.1,
+But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
 which are much harder to port to than Python 3.3 and later.
 I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
 I'm going to look into this later.
@@ -176,13 +176,43 @@ In Python 2 you often did not need to make such a separation.
 That led to a lot of confusion with regards to Unicode, and a lot of problems,
 but if your code is working, this new setup means more work for you.
 
-
-Tools that can help you
-=======================
+Other cases when it's not fun is when your API don't work under Python 3, or won't make sense.
+The icalendar module had an API where you used str(icalendar) to generate the UTF-8 encoded icalendar output.
+Obviously that doesn't work in Python 3, as str(icalendar) would generate Unicode, not an 8-bit string.
+The API needed to be changed.
+lxml has a .tostring() method, which will give you bytes under Python 3, unless you explicitly pass in the encoding 'unicode'.
+This can be confusing...
 
 
 Practical Experiences
 =====================
+
+When preparing for this talk I decided to look at the current state of Python 3 support.
+I wanted to know how difficult it would typically be to help port the libraries you depend on.
+To do that I needed to port some package that I didn't already know intimately, and decided on Diazo.
+
+I picked Diazo because I looked at the Python Wall of Superpowers. https://python3wos.appspot.com/
+Most of the modules support Python 3 already.
+And those who do not often already have Python 3 support efforts.
+
+But far down I found "Deliverence".
+Deliverence doens't have Python 3 support and there are two reasons for that.
+One is that it's a standalone program, and not a library, so it not supporting Python 3 is not a big problem.
+The other is that although less popular, Diazo is generally a better alternative, which is why I decided to port Diazo.
+
+Let me first explain what Deliverence and Diazo does.
+Deliverence and Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
+It means you can have a designer create the design as static HTML and then you can map your dynamic site into that design without even modifying your site.
+So you can style your PHP site or your Plone site without actually knowing either PHP or Plone.
+Brilliant! We've used it on pretty much any site I've been involved with the last 4 years.
+
+Diazo takes the same concepts and the same rule syntax as Deliverence, but it actually compiles the rules into XSLT.
+You can then let nginx or apache do this mapping.
+Or you can use the included WSGI server, or you can use it as a library inside your web framework.
+
+Tool 1: Can I use Python 3?
+---------------------------
+
 
 
 Conclusions
