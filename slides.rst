@@ -210,9 +210,123 @@ Diazo takes the same concepts and the same rule syntax as Deliverence, but it ac
 You can then let nginx or apache do this mapping.
 Or you can use the included WSGI server, or you can use it as a library inside your web framework.
 
-Tool 1: Can I use Python 3?
----------------------------
+Tool 1: caniusepython3
+----------------------
 
+This is both a command line tool and a website. https://caniusepython3.com/
+It's not perfect, but it's helpful as a way to evaluate the application.
+It told me it needed repoze.xmliter, but I think they have changed how it works slightly.
+Now it only reports the packages that do not support Python 3, but where all dependencies support Python 3.
+So in other words, caniusepython3 will now essentially recommend which package I should add Python 3 support to first.
+
+In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
+
+Adding Python 3 support to collective.checkdocs
+-----------------------------------------------
+
+The collective.checkdocs source is on the Plone Collective svn server,
+which is in read only mode, so I need to first migrate it to the collective repo on github.
+I started that process (svn2git takes hours to run on that repository, it's huge)
+and I mailed the original author to make sure that he is OK with it.
+
+Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
+
+Tool 2: Virtualenv
+------------------
+
+Tox can help you run tests on a module for several Python versions.
+It's a big buyers beware here, though.
+Tox used to be good, but now it is starting to be quite brittle, and doesn't work with all Python versions etc.
+In my experience the last months, it's now more trouble that it's worth.
+I have unfortunately not had any time to actually dig into the problems, with Tox.
+Hopefully this will get better in the future.
+
+But I have instead of using Tox simply set up virtualenvs for each version I want to test:
+
+    /opt/python26/bin/virtualenv .py26
+    ./.py26/bin/python setup.py develop
+
+And then I simply run the tests with
+
+    ./.py26/bin/python setup.py test
+
+etc. It's a little bit more work to get started, but unlike using Tox is actually worked.
+
+Tool 3: 2to3
+------------
+
+I then ran 2to3 on the code to update things to Python 3.
+It doesn't work perfectly, I need to clean up the imports manually.
+I also need to add a from __future__ import print_function to get it to run under Python 2.
+
+I add Python 3.2, 3.3 and 3.4 to the list of supported versions in setup.py.
+I clean up things a bit, add a MANIFEST.in etc, makes sure Pyroma thinks the code is creamy, and release the module to PyPI.
+
+Total time spent, including setting up Tox and then not using it anyway: Around 4 hours. The new version is released already.
+
+
+Adding Python 3 support to repoze.xmliter
+-----------------------------------------
+
+repoze.xmliter is a wrapper to lxml that you can iterate over.
+It will then give you chunks of byte strings of XML.
+Not the most exiting module on PyPI, but interesting for this project, because it needs to handle both binary data and text!
+This as we know, make it a Tricky Module to support Python 3.
+
+Tool 4: Futurize
+----------------
+
+Futurize is an extension to Python 3 that supposedly keep Python 2 compatibility when doing the fixes.
+
+So I tried to use futurize here, but that doesn't work.
+After running futurize the code stopped working in Python 2, and still did not work in Python 3.
+I fought with this a bit, and ended up starting over.
+
+What I end up doing is running the tests under Python 3, and fixing error by error,
+while after each fix running it under Python 2 to make sure it didn't break.
+
+And here we come to one of the biggest complaints about Python 3 that is actually true.
+This type of code often ends up ugly.
+There are a lot of checks for if the input is byte strings or Unicode strings, and as we all know, type checking is unpythonic.
+
+In this case I could cheat, because the relevant methods take an encoding parameter,
+so now you can either pass in what encoding the byte string is using,
+or you pass in the unicode object instead of a name of an encoding.
+So I don't actually do type checking, it's inferred otherwise in this case.
+But often you need to check the type.
+
+I also needed to add tests to make sure Unicode was supported.
+It was, but there were no tests for it.
+
+In total the work to port, including false starts, cleanups and added tests was no more than 6 hours.
+
+
+Adding Python 3 support to Diazo
+--------------------------------
+
+Now time had come to Diazo itself.
+With Diazo I again first quickly tried to run the code through futurize to see if it would still work with Python 2 afterwards.
+Again it would not, so I did the same thing I did with repoze.xmliter, and would run the tests under Python 3,
+fix a test failure, make sure it still ran under Python 2, and then repeat.
+
+In the case of Diazo I was affected a lot by the import reorganization, so what I did here was that I included future as a dependency,
+and I when I found a problem that could be solved by a fixer, I ran that specific fixer on the code with
+
+futurize -w -f <thespecificfixer> .
+
+The main thing I needed to do manually after this was change all the tests to use byte strings instead of native strings,
+and switch from cStringIO to io.BytesIO.
+
+Total time: 3 hours
+
+Not yet done
+------------
+
+The Diazo buildout includes a default test setup with PasteScript so you can develop your theme rules without nginx or Apache.
+But PasteScript is not and will not be ported to Python 3.
+The test setup also uses a lot of PasteScript middleware, like urlmap and proxy, so I can't just switch it out for any old  WSGI server.
+A Python 3 compatible server designed to replace PasteScript exists in gearbox, but not all of the middleware has been ported yet.
+So this still remains.
 
 
 Conclusions
