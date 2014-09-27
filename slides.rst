@@ -1,109 +1,176 @@
+:skip-help: true
+:title: Prehistoric Patterns in Python
+:auto-console: false
 
-Fear, uncertainty and doubt
-===========================
+----
+
+Who's Afraid of the Big Bad 3
+=============================
+
+Lennart Regebro
+---------------
+
+PyCon Ireland, Dublin 2014
+
+----
 
 Python 3 is a dead end!
 -----------------------
 
+----
+
 Everything breaks!
 ------------------
+
+----
 
 There are no third-party modules!
 ---------------------------------
 
+----
+
 You will have to spend hundreds of man-hours!
 ---------------------------------------------
+
+----
 
 Python 3 is really a new language!
 ----------------------------------
 
+----
+
 Python 2 is good enough!
 ------------------------
+
+----
 
 Python 3 was a mistake!
 -----------------------
 
+----
 
-Reality
-=======
+Or?
+===
 
+----
 
-Python 3 is a dead end!
+Is Python 3 a dead end?
 -----------------------
 
-* All new features go into Python 3.
+.. note::
 
-* Some available as libraries, but not all.
+    Sometimes people claim that Python 3 will fail, and that it is a dead end. But...
 
-A common argument against Python 3 is that it makes Python 2 a dead end.
-Most people that ask for a Python 2.8 want all new Python 3 features to be backmerged to Python 2.
-So the reality is that it's Python 2 that is the dead end.
+----
 
-Everything breaks!
-------------------
+All new features go into Python 3!
+----------------------------------
 
-It's hard to argue with this, because although not everything breaks,
-you do in general have to make changes to your code.
-I've so far only found one module that actually ran on Python 3 without modifications, and it was very simple.
-And even then, the tests broke and I had to fix them.
 
+.. note::
+
+    ...all new features go into Python 3!
+
+    Some of the new features are available as libraries, but not all.
+
+    Most people that ask for a Python 2.8 want all new Python 3 features to be backmerged to Python 2.
+    Doesn't sound like Python 3 is dead to me...
+
+----
+
+Reality: Python 2 is the dead end
+---------------------------------
+
+.. note::
+
+    So the reality is that it's Python 2 that is the dead end.
+    This even sometimes is brought forward as an argument against Python 3, strangely enough.
+    All new releases make the old releases dead-ends, that's the whole point of making new releases...
+
+----
+
+Does everything break?
+----------------------
+
+.. note::
+
+    It's hard to argue with this, because although not everything breaks,
+    you do in general have to make changes to your code.
+    I've so far only found one package that actually ran on Python 3 without modifications, and it was very simple.
+    And even then, the tests broke and I had to fix them.
+
+    So yes, every package is likely to break. But that doens't mean it's hard to fix it.
+
+----
 
 There are no third-party modules!
 ---------------------------------
 
 Include relevant Python 3 graph here.
 
+----
 
 You will have to spend hundreds of man-hours!
 ---------------------------------------------
 
-Well, this really depends on the code you need to fix, and how much code of course.
-But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
-Well, no, not perhaps, I have spent hundreds of man hours on it.
-But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
-which are much harder to port to than Python 3.3 and later.
-I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
-I'm going to look into this later.
+.. note::
 
+    Well, this really depends on the code you need to fix, and how much code of course.
+    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
+    Well, no, not perhaps, I have spent hundreds of man hours on it.
+    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
+    which are much harder to port to than Python 3.3 and later.
+    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
+    I'm going to look into this later.
+
+----
 
 Python 3 is really a new language!
 ----------------------------------
 
-If it was a new language, then you would get confused when reading Python 3 code.
-You would not be entirely sure what the code would do, as bits of it wouldn't make sense.
-That is not the case, I promise.
-Python 3 code looks exactly like Python 2 code, with some minor differences.
-The most telltale sign is usually that print is a function now.
+.. note::
 
+    If it was a new language, then you would get confused when reading Python 3 code.
+    You would not be entirely sure what the code would do, as bits of it wouldn't make sense.
+    That is not the case, I promise.
+    Python 3 code looks exactly like Python 2 code, with some minor differences.
+    The most telltale sign is usually that print is a function now.
+
+----
 
 Python 2 is good enough
 -----------------------
 
-Well, I can't argue with that one.
-I agree, it is good enough.
-But Python 3 *is* better.
+.. note::
 
+    Well, I can't argue with that one.
+    I agree, it is good enough.
+    But Python 3 *is* better.
+
+----
 
 Python 3 was a mistake
 ----------------------
 
-There was several mistakes that could only be fixed by breaking backwards compatibility.
+.. note::
 
-* Floor division
+    There was several mistakes that could only be fixed by breaking backwards compatibility.
 
-* Exception syntax
+    * Floor division
 
-* Unicode
+    * Exception syntax
 
-Loads of other languages never break backwards compatibility, they just load more and more stuff on,
-making the language more and more complex.
-Is that really what we would like to do to Python?
-C++ has 84 keywords, 10 of them was new in C++ 11.
-Python has 33, 4 of them is new in Python 3 (False, True, None and nonlocal) and two taken away (exec and print).
-Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
-This is the reason for that.
-And if we want Python to continue to be everyones favourite language, that simplicity must remain.
-So I don't think Python 3 was a mistake.
+    * Unicode
+
+    Loads of other languages never break backwards compatibility, they just load more and more stuff on,
+    making the language more and more complex.
+    Is that really what we would like to do to Python?
+    C++ has 84 keywords, 10 of them was new in C++ 11.
+    Python has 33, 4 of them is new in Python 3 (False, True, None and nonlocal) and two taken away (exec and print).
+    Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
+    This is the reason for that.
+    And if we want Python to continue to be everyones favourite language, that simplicity must remain.
+    So I don't think Python 3 was a mistake.
 
 
 Most changes are not so bad
