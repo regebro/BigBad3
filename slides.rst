@@ -386,14 +386,39 @@ and switch from cStringIO to io.BytesIO.
 
 Total time: 3 hours
 
-Not yet done
-------------
+Updating the documentation
+--------------------------
 
-The Diazo buildout includes a default test setup with PasteScript so you can develop your theme rules without nginx or Apache.
-But PasteScript is not and will not be ported to Python 3.
-The test setup also uses a lot of PasteScript middleware, like urlmap and proxy, so I can't just switch it out for any old  WSGI server.
-A Python 3 compatible server designed to replace PasteScript exists in gearbox, but not all of the middleware has been ported yet.
-So this still remains.
+The Diazo buildout includes a default test setup with Paste so you can develop your theme rules without nginx or Apache.
+But Paste is not and will not be ported to Python 3.
+The test setup also uses a lot of Paste apps, like urlmap and proxy, so I can't just switch it out for any old  WSGI server.
+I needed one that used PasteDeploy.
+A Python 3 compatible server designed to replace Paste's server exists in gearbox, but what about the apps?
+
+Tool 5: Twitter!
+----------------
+
+I was discussing the issue on Twitter as I was preparing to port Paste's static and proxy apps.
+The urlmap app was already ported as "rutter".
+But then Ian Bicking pointed out that the apps I wanted to port already had been ported and was a part of WebOb!
+However, it did not have any PasteDeploy entry points, so I needed to fix that.
+
+webobentrypoints
+----------------
+
+So I started a package simply called "webobentrypoints".
+As of today, it only contains PasteDeploy entry points for the static directory app and using the client app as a proxy,
+because that's what was needed. I'll try to get time to add entry points for the other apps as well.
+
+This took a long time because I neede to learn about the PasteDeploy entry points,
+and I needed to re-learn WSGI which I hadn't looked at for years.
+All in all this probably took 4-6 hours, of which maybe one was spent actually making the webobentrypoints package.
+
+Less than 20 hours!
+-------------------
+
+That included porting collective.checkdocs, repoze.xmliter, Diazo and writing webobentrypoints.
+Much of the time was not spent actually porting, but learning what the various modules actually did.
 
 
 Conclusions
