@@ -1,5 +1,5 @@
 :skip-help: true
-:title: Prehistoric Patterns in Python
+:title: Who's Afraid of the Big Bad 3
 :auto-console: false
 
 ----
@@ -29,11 +29,6 @@ There are no third-party modules!
 
 ----
 
-You will have to spend hundreds of man-hours!
-=============================================
-
-----
-
 Python 3 is really a new language!
 ==================================
 
@@ -41,6 +36,11 @@ Python 3 is really a new language!
 
 No other language ever break backwards compatibility!
 =====================================================
+
+----
+
+You will have to spend hundreds of man-hours!
+=============================================
 
 ----
 
@@ -119,28 +119,6 @@ There are Third-party modules!
 
 ----
 
-Hundreds of man-hours? Really?
-==============================
-
-.. note::
-
-    Well, this really depends on the code you need to fix, and how much code of course.
-    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
-
-    Well, no, not perhaps, I have spent hundreds of man hours on it.
-    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
-    which are much harder to port to than Python 3.3 and later.
-    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
-
-    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
-    but also because less libraries were available,
-    so you needed to port more libraries that you didn't write.
-
-    But today the situation is very different.
-    I'm going to talk about this later, with a real world example.
-
-----
-
 Python 3 is familiar!
 =====================
 
@@ -152,23 +130,6 @@ Python 3 is familiar!
     Python 3 code looks exactly like Python 2 code, with some minor differences.
     The most telltale sign is usually that print is a function now.
     If anything, Python 3 code is clearer, as 3/2 returns one and a half now.
-
-----
-
-Python 3 was a mistake
-======================
-
-.. note::
-
-    There was several mistakes that could only be fixed by breaking backwards compatibility.
-
-    * Floor division
-
-    * Exception syntax
-
-    * Unicode
-
-    So I don't think Python 3 was a mistake.
 
 ----
 
@@ -191,12 +152,64 @@ Backwards compatibility
 Is a fuzzy concept
 ==================
 
-.. note:
+.. note::
 
-    I saw Armin Ronacher abtrying to compile  early versions of Python.
+    In August I saw Armin Ronacher tweet about compiling early versions of Python.
+    It took a bit of effort and even then Python apparently crashed on exit.
+    Is C then really backwards compatible?
+    What does backwards compatible mean?
 
+    Well it doesn't mean that code will continue to run forever.
+    Becase the 10 new keywords in C++ 11 will mean that code that used those keywords as variables will break.
+    What it really means is that when it breaks, we can fix it so that it runs on both the old and the new version.
+    And with Python 3 we need hacks and compatibility layers for that.
+    But backwards compatibility does not mean that you will be able to run your code unmodified on any future version.
+
+    But except for variable names that becomes keywords, most Python code that was written 13 years ago will run unmodified on Python 2.7.
+    Python has if anything almost required LESS changes than C and C++ to the code over the last 20 years,
+    thanks to Python isolating you from the hardware and the OS better than C does.
 
 ----
+
+Hundreds of man-hours? Really?
+==============================
+
+.. note::
+
+    Well, this really depends on the code you need to fix, and how much code of course.
+    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
+
+    Well, no, not perhaps, I have spent hundreds of man hours on it.
+    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
+    which are much harder to port to than Python 3.3 and later.
+    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
+
+    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
+    but also because less libraries were available,
+    so you needed to port more libraries that you didn't write.
+
+    But today the situation is very different.
+    I'm going to talk about this later, with a real world example.
+
+----
+
+Python 3 was a mistake
+======================
+
+.. note::
+
+    There was several mistakes that could only be fixed by breaking backwards compatibility.
+
+    * Floor division
+
+    * Exception syntax
+
+    * Unicode
+
+    So I don't think Python 3 was a mistake.
+
+----
+
 
 Python 2 is good enough
 =======================
@@ -209,12 +222,17 @@ Python 2 is good enough
 
 ----
 
+You want Python 3
+=================
+
+Although you might not know it yet
+----------------------------------
+
+----
+
 Most changes are not so bad
 ===========================
 
-.. note::
-
-   uh,
 
 ----
 
