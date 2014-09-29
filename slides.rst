@@ -15,37 +15,42 @@ PyCon Ireland, Dublin 2014
 ----
 
 Python 3 is a dead end!
------------------------
+=======================
 
 ----
 
 Everything breaks!
-------------------
+==================
 
 ----
 
 There are no third-party modules!
----------------------------------
+=================================
 
 ----
 
 You will have to spend hundreds of man-hours!
----------------------------------------------
+=============================================
 
 ----
 
 Python 3 is really a new language!
-----------------------------------
+==================================
 
 ----
 
-Python 2 is good enough!
-------------------------
+No other language ever break backwards compatibility!
+=====================================================
 
 ----
 
 Python 3 was a mistake!
------------------------
+=======================
+
+----
+
+Python 2 is good enough!
+========================
 
 ----
 
@@ -55,7 +60,7 @@ Or?
 ----
 
 Is Python 3 a dead end?
------------------------
+=======================
 
 .. note::
 
@@ -64,7 +69,7 @@ Is Python 3 a dead end?
 ----
 
 All new features go into Python 3!
-----------------------------------
+==================================
 
 
 .. note::
@@ -79,7 +84,7 @@ All new features go into Python 3!
 ----
 
 Reality: Python 2 is the dead end
----------------------------------
+=================================
 
 .. note::
 
@@ -90,7 +95,7 @@ Reality: Python 2 is the dead end
 ----
 
 Does everything break?
-----------------------
+======================
 
 .. note::
 
@@ -103,30 +108,41 @@ Does everything break?
 
 ----
 
-There are no third-party modules!
----------------------------------
+There are Third-party modules!
+==============================
 
-Include relevant Python 3 graph here.
+* 165 of the 200 top packages support Python 3
+
+* Over 4000 Python 3 packages on the Cheeseshop.
+
+.. image:: images/py3pkgs.png
 
 ----
 
-You will have to spend hundreds of man-hours!
----------------------------------------------
+Hundreds of man-hours? Really?
+==============================
 
 .. note::
 
     Well, this really depends on the code you need to fix, and how much code of course.
     But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
+
     Well, no, not perhaps, I have spent hundreds of man hours on it.
     But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
     which are much harder to port to than Python 3.3 and later.
     I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
-    I'm going to look into this later.
+
+    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
+    but also because less libraries were available,
+    so you needed to port more libraries that you didn't write.
+
+    But today the situation is very different.
+    I'm going to talk about this later, with a real world example.
 
 ----
 
-Python 3 is really a new language!
-----------------------------------
+Python 3 is familiar!
+=====================
 
 .. note::
 
@@ -135,22 +151,12 @@ Python 3 is really a new language!
     That is not the case, I promise.
     Python 3 code looks exactly like Python 2 code, with some minor differences.
     The most telltale sign is usually that print is a function now.
-
-----
-
-Python 2 is good enough
------------------------
-
-.. note::
-
-    Well, I can't argue with that one.
-    I agree, it is good enough.
-    But Python 3 *is* better.
+    If anything, Python 3 code is clearer, as 3/2 returns one and a half now.
 
 ----
 
 Python 3 was a mistake
-----------------------
+======================
 
 .. note::
 
@@ -162,7 +168,16 @@ Python 3 was a mistake
 
     * Unicode
 
-    Loads of other languages never break backwards compatibility, they just load more and more stuff on,
+    So I don't think Python 3 was a mistake.
+
+----
+
+Backwards compatibility
+=======================
+
+.. note::
+
+    Loads of other languages try to not break backwards compatibility, they just load more and more stuff on,
     making the language more and more complex.
     Is that really what we would like to do to Python?
     C++ has 84 keywords, 10 of them was new in C++ 11.
@@ -170,20 +185,38 @@ Python 3 was a mistake
     Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
     This is the reason for that.
     And if we want Python to continue to be everyones favourite language, that simplicity must remain.
-    So I don't think Python 3 was a mistake.
 
+----
+
+Is a fuzzy concept
+==================
+
+.. note:
+
+    I saw Armin Ronacher abtrying to compile  early versions of Python.
+
+
+----
+
+Python 2 is good enough
+=======================
+
+.. note::
+
+    Well, I can't argue with that one.
+    I agree, it is good enough.
+    But Python 3 *is* better.
+
+----
 
 Most changes are not so bad
 ===========================
 
-My interest in Python 3 started at EuroPython 2007.
-Guido held a keynote about Python 3,
-and explained that writing code that would run on both Python 2 and Python 3 would be very complicated.
-And then he listed all the differences, and it didn't seem that bad,
-so I asked myself if it really was that hard to write code that ran on both versions?
-And the answer is: No, it's not that hard!
-There are a lot of changes that are indeed backwards incompatible, but which allows forwards compatibility.
-For example, take the changes to exception syntax.
+.. note::
+
+   uh,
+
+----
 
 .. code:: python
 
@@ -195,10 +228,14 @@ Turned into
 
     except Exception as e:
 
-The first syntax is not allowed in Python 3.
-But, the second syntax is allowed in Python 2.6 and 2.7.
-That means that you can perfectly well write code that runs on both Python 2 and Python 3 using the new syntax,
-as long as you don't need to support versions before Python 2.6.
+.. note::
+
+    The first syntax is not allowed in Python 3.
+    But, the second syntax is allowed in Python 2.6 and 2.7.
+    That means that you can perfectly well write code that runs on both Python 2 and Python 3 using the new syntax,
+    as long as you don't need to support versions before Python 2.6.
+
+----
 
 Other changes has explicit forward compatibility, like the new division and the print function:
 
@@ -278,7 +315,7 @@ You can then let nginx or apache do this mapping.
 Or you can use the included WSGI server, or you can use it as a library inside your web framework.
 
 Tool 1: caniusepython3
-----------------------
+======================
 
 This is both a command line tool and a website. https://caniusepython3.com/
 It's not perfect, but it's helpful as a way to evaluate the application.
@@ -289,7 +326,7 @@ So in other words, caniusepython3 will now essentially recommend which package I
 In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
 
 Adding Python 3 support to collective.checkdocs
------------------------------------------------
+===============================================
 
 The collective.checkdocs source is on the Plone Collective svn server,
 which is in read only mode, so I need to first migrate it to the collective repo on github.
@@ -299,7 +336,7 @@ and I mailed the original author to make sure that he is OK with it.
 Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
 
 Tool 2: Virtualenv
-------------------
+==================
 
 Tox can help you run tests on a module for several Python versions.
 It's a big buyers beware here, though.
@@ -320,7 +357,7 @@ And then I simply run the tests with
 etc. It's a little bit more work to get started, but unlike using Tox is actually worked.
 
 Tool 3: 2to3
-------------
+============
 
 I then ran 2to3 on the code to update things to Python 3.
 It doesn't work perfectly, I need to clean up the imports manually.
@@ -333,7 +370,7 @@ Total time spent, including setting up Tox and then not using it anyway: Around 
 
 
 Adding Python 3 support to repoze.xmliter
------------------------------------------
+=========================================
 
 repoze.xmliter is a wrapper to lxml that you can iterate over.
 It will then give you chunks of byte strings of XML.
@@ -341,7 +378,7 @@ Not the most exiting module on PyPI, but interesting for this project, because i
 This as we know, make it a Tricky Module to support Python 3.
 
 Tool 4: Futurize
-----------------
+================
 
 Futurize is an extension to Python 3 that supposedly keep Python 2 compatibility when doing the fixes.
 
@@ -369,7 +406,7 @@ In total the work to port, including false starts, cleanups and added tests was 
 
 
 Adding Python 3 support to Diazo
---------------------------------
+================================
 
 Now time had come to Diazo itself.
 With Diazo I again first quickly tried to run the code through futurize to see if it would still work with Python 2 afterwards.
@@ -387,7 +424,7 @@ and switch from cStringIO to io.BytesIO.
 Total time: 3 hours
 
 Updating the documentation
---------------------------
+==========================
 
 The Diazo buildout includes a default test setup with Paste so you can develop your theme rules without nginx or Apache.
 But Paste is not and will not be ported to Python 3.
@@ -396,7 +433,7 @@ I needed one that used PasteDeploy.
 A Python 3 compatible server designed to replace Paste's server exists in gearbox, but what about the apps?
 
 Tool 5: Twitter!
-----------------
+================
 
 I was discussing the issue on Twitter as I was preparing to port Paste's static and proxy apps.
 The urlmap app was already ported as "rutter".
@@ -404,7 +441,7 @@ But then Ian Bicking pointed out that the apps I wanted to port already had been
 However, it did not have any PasteDeploy entry points, so I needed to fix that.
 
 webobentrypoints
-----------------
+================
 
 So I started a package simply called "webobentrypoints".
 As of today, it only contains PasteDeploy entry points for the static directory app and using the client app as a proxy,
@@ -415,7 +452,7 @@ and I needed to re-learn WSGI which I hadn't looked at for years.
 All in all this probably took 4-6 hours, of which maybe one was spent actually making the webobentrypoints package.
 
 Less than 20 hours!
--------------------
+===================
 
 That included porting collective.checkdocs, repoze.xmliter, Diazo and writing webobentrypoints.
 Much of the time was not spent actually porting, but learning what the various modules actually did.
