@@ -1,6 +1,6 @@
 :skip-help: true
 :title: Who's Afraid of the Big Bad 3
-:auto-console: false
+:auto-console: true
 
 ----
 
@@ -14,8 +14,8 @@ PyCon Ireland, Dublin 2014
 
 ----
 
-Python 3 is a dead end!
-=======================
+Python 3 is really a new language!
+==================================
 
 ----
 
@@ -24,23 +24,8 @@ Everything breaks!
 
 ----
 
-There are no third-party modules!
-=================================
-
-----
-
-Python 3 is really a new language!
-==================================
-
-----
-
 No other language ever break backwards compatibility!
 =====================================================
-
-----
-
-You will have to spend hundreds of man-hours!
-=============================================
 
 ----
 
@@ -49,8 +34,13 @@ Python 3 was a mistake!
 
 ----
 
-Python 2 is good enough!
-========================
+There are no third-party modules!
+=================================
+
+----
+
+You will have to spend hundreds of man-hours!
+=============================================
 
 ----
 
@@ -59,68 +49,8 @@ Or?
 
 ----
 
-Is Python 3 a dead end?
-=======================
-
-.. note::
-
-    Sometimes people claim that Python 3 will fail, and that it is a dead end. But...
-
-----
-
-All new features go into Python 3!
-==================================
-
-
-.. note::
-
-    ...all new features go into Python 3!
-
-    Some of the new features are available as libraries, but not all.
-
-    Most people that ask for a Python 2.8 want all new Python 3 features to be backmerged to Python 2.
-    Doesn't sound like Python 3 is dead to me...
-
-----
-
-Reality: Python 2 is the dead end
-=================================
-
-.. note::
-
-    So the reality is that it's Python 2 that is the dead end.
-    This even sometimes is brought forward as an argument against Python 3, strangely enough.
-    All new releases make the old releases dead-ends, that's the whole point of making new releases...
-
-----
-
-Does everything break?
-======================
-
-.. note::
-
-    It's hard to argue with this, because although not everything breaks,
-    you do in general have to make changes to your code.
-    I've so far only found one package that actually ran on Python 3 without modifications, and it was very simple.
-    And even then, the tests broke and I had to fix them.
-
-    So yes, every package is likely to break. But that doens't mean it's hard to fix it.
-
-----
-
-There are Third-party modules!
-==============================
-
-* 165 of the 200 top packages support Python 3
-
-* Over 4000 Python 3 packages on the Cheeseshop.
-
-.. image:: images/py3pkgs.png
-
-----
-
-Python 3 is familiar!
-=====================
+Python 3 is Python!
+===================
 
 .. note::
 
@@ -133,24 +63,20 @@ Python 3 is familiar!
 
 ----
 
-Backwards compatibility
-=======================
+Does everything break?
+======================
 
 .. note::
 
-    Loads of other languages try to not break backwards compatibility, they just load more and more stuff on,
-    making the language more and more complex.
-    Is that really what we would like to do to Python?
-    C++ has 84 keywords, 10 of them was new in C++ 11.
-    Python has 33, 4 of them is new in Python 3 (False, True, None and nonlocal) and two taken away (exec and print).
-    Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
-    This is the reason for that.
-    And if we want Python to continue to be everyones favourite language, that simplicity must remain.
+    I've so far only found one package that actually ran on Python 3 without modifications, and it was very simple.
+    And even then, the tests broke and I had to fix them.
+
+    So yes, every package is likely to break.
 
 ----
 
-Is a fuzzy concept
-==================
+Does other languages break backwards compatibility?
+===================================================
 
 .. note::
 
@@ -160,14 +86,76 @@ Is a fuzzy concept
     What does backwards compatible mean?
 
     Well it doesn't mean that code will continue to run forever.
-    Becase the 10 new keywords in C++ 11 will mean that code that used those keywords as variables will break.
     What it really means is that when it breaks, we can fix it so that it runs on both the old and the new version.
-    And with Python 3 we need hacks and compatibility layers for that.
-    But backwards compatibility does not mean that you will be able to run your code unmodified on any future version.
+    And with Python 3 we need hacks and compatibility layers for that, so we say it's not backwards compatible.
+    But that was for comparing Python 3.0 to Python 2 in general.
+    With Python 3.3 and Python 2.7, it's not so clear.
+    You can write code that runs on both quite easily.
 
-    But except for variable names that becomes keywords, most Python code that was written 13 years ago will run unmodified on Python 2.7.
+    Except for variable names that becomes keywords,
+    most Python code that was written 15 years ago will run unmodified on Python 2.7.
     Python has if anything almost required LESS changes than C and C++ to the code over the last 20 years,
     thanks to Python isolating you from the hardware and the OS better than C does.
+    So perhaps partly the anger at the changes in Python 3 comes from being spoiled.
+    We are used to Python code running forever and on different platforms.
+
+----
+
+Was Python 3 a mistake?
+=======================
+
+.. note::
+
+    There was several mistakes that could only be fixed by breaking backwards compatibility.
+
+    * Floor division
+
+    * Exception syntax
+
+    * Comparing strings and numbers.
+
+    * Unicode
+
+    Loads of other languages try to not break backwards compatibility, they just load more and more stuff on,
+    making the language more and more complex.
+    Is that really what we would like to do to Python?
+    C++ has 84 keywords, 10 of them was new in C++ 11.
+    Python has 33.
+    Python 3 has 1 new keyword, nonlocal.
+    And also three "old" non-keywords made into keywords; False, True and None.
+    It also has two taken away (exec and print).
+    Python is getting more complex because of new features, but it is also simplifying some bits.
+
+    Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
+    The simplicity of Python is a big reason for that.
+    And if we want Python to continue to be everyones favourite language, that simplicity must remain.
+
+    So I don't think Python 3 was a mistake.
+
+----
+
+There are Third-party modules!
+==============================
+
+* 165 of the 200 top packages support Python 3
+
+* Over 4000 Python 3 packages on the Cheeseshop.
+
+.. image:: images/py3pkgs.png
+
+.. note::
+
+    165 of 200 are not too shabby.
+    And 3 packages (Paste, python-cloudfiles, ssh) is deprecated and will not be ported.
+    6 packages (supervisor, fabric, Deliverance, sentry, tiddlywebplugins.tiddlyspace, flexget) is not libraries,
+    but applications so you don't really need Python 3 support very much.
+
+    So really, it's only 26 of the top 200 packages that still need to support Python 3.
+    And work is ongoing for most of them.
+    4 packages (suds, python-daemon, python-oauth2, python-openid) hasn't been updated for years,
+    and are likely unmaintained.
+    If you are using any of those, talk to the author, maybe a new maintainer would be welcome.
+
 
 ----
 
@@ -193,40 +181,92 @@ Hundreds of man-hours? Really?
 
 ----
 
-Python 3 was a mistake
-======================
-
-.. note::
-
-    There was several mistakes that could only be fixed by breaking backwards compatibility.
-
-    * Floor division
-
-    * Exception syntax
-
-    * Unicode
-
-    So I don't think Python 3 was a mistake.
-
-----
-
-
-Python 2 is good enough
-=======================
-
-.. note::
-
-    Well, I can't argue with that one.
-    I agree, it is good enough.
-    But Python 3 *is* better.
-
-----
-
 You want Python 3
 =================
 
 Although you might not know it yet
 ----------------------------------
+
+(Bits of this shamelessly ripped from Aaron Meurer's talk)
+
+----
+
+Iterable Unpacking
+==================
+
+.. code::
+
+    >>> parts = "a b c d".split()
+    >>> first = parts[0]
+    >>> last = parts[-1]
+    >>> first, last
+    ('a', 'd')
+
+.. note::
+
+    You all know how to get the first and last part of something in Python 2.
+    But did you know there is another way in Python 3?
+
+----
+
+Extended Iterable Unpacking
+===========================
+
+.. code::
+
+    >>> first, *rest, last = "a b c d".split()
+    >>> first, last
+    ('a', 'd')
+
+.. note::
+
+    What you say, eh? Aint that neat?
+
+    The official name is Extended Iterable Unpacking, and it's PEP 3132 if you want to know more.
+
+----
+
+It works in functions too!
+==========================
+
+.. code::
+
+    >>> def foo(a, *args, b, **kw):
+    ...   print(a, b, args, kw)
+
+    >>> foo(1, 2, 3, b=4, c=5)
+    1 4 (2, 3) {'c': 5}
+
+.. note::
+
+    The main effect of that is that you HAVE to pass in b as a keyword paremeter.
+    That's the intention of that feature. That's PEP 3102: Keyword-Only Arguments, for those interested.
+
+----
+
+Chained exceptions
+==================
+
+----
+
+Fine-grained OS Exceptions
+==========================
+
+----
+
+Yield from
+==========
+
+----
+
+New modules
+===========
+
+* faulthandler
+* functools.lru_cache
+* ipaddress
+* enum
+* Asyncio
 
 ----
 
