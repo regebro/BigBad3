@@ -152,10 +152,10 @@ There are Third-party modules!
 
     So really, it's only 26 of the top 200 packages that still need to support Python 3.
     And work is ongoing for most of them.
+
     4 packages (suds, python-daemon, python-oauth2, python-openid) hasn't been updated for years,
     and are likely unmaintained.
     If you are using any of those, talk to the author, maybe a new maintainer would be welcome.
-
 
 ----
 
@@ -247,26 +247,48 @@ It works in functions too!
 Chained exceptions
 ==================
 
+.. note::
+
+    In Python 2, if you raise an exception during exception handling, the original exception is lost.
+    In Python 3 you can chain them, and get both tracebacks, which is really handy for debugging.
+
 ----
 
-Fine-grained OS Exceptions
-==========================
+Better OS Exceptions
+====================
+
+.. note::
+
+    Is Python 2, loads of errors are hidden behind the OSError exceptions.
+    In Python 3,3, you have many separate exceptions, which all inherit from OSerror.
+    For example you can now get a FileExistsError and a NotADirectoryError.
+    This makes it much simpler to handle different errors separately.
+    Also other operating system errors like IOError, are also now subclasses of OSError.
 
 ----
 
 Yield from
 ==========
 
+.. note::
+
+    You also have `yield from`, which let's you delegate your generator to a subgenerator.
+    Extremely handy.
+
 ----
 
-New modules
-===========
+Asyncio
+=======
 
-* faulthandler
-* functools.lru_cache
-* ipaddress
-* enum
-* Asyncio
+.. note::
+
+    There are several new modules in later versions of Python 3.
+    Most of them have backports so you can use them anyway.
+    I think enum perhaps is the most interesting one there.
+    But AsyncIO does not have a Python 2 backport.
+    You need Python 3.3 or later.
+
+
 
 ----
 
