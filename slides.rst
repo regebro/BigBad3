@@ -65,9 +65,6 @@ Python 3 is Python!
     If it was a new language, then you would get confused when reading Python 3 code.
     You would not be entirely sure what the code would do, as bits of it wouldn't make sense.
     That is not the case, I promise.
-    Python 3 code looks exactly like Python 2 code, with some minor differences.
-    The most telltale sign is usually that print is a function now.
-    If anything, Python 3 code is clearer, as 3/2 returns one and a half now.
 
 ----
 
@@ -76,10 +73,7 @@ Does everything break?
 
 .. note::
 
-    I've so far only found one package that actually ran on Python 3 without modifications, and it was very simple.
-    And even then, the tests broke and I had to fix them.
-
-    So yes, every package is likely to break.
+    Not all code breaks, but yes, every non-trivial package is likely to break.
     But that does not mean it's hard to fix, and I'll look at that later.
 
 -----
@@ -101,13 +95,6 @@ Does other languages break backwards compatibility?
     With Python 3.3 and Python 2.7, it's not so clear.
     You can write code that runs on both quite easily.
 
-    Except for variable names that becomes keywords,
-    most Python code that was written 15 years ago will run unmodified on Python 2.7.
-    Python has if anything almost required LESS changes than C and C++ to the code over the last 20 years,
-    thanks to Python isolating you from the hardware and the OS better than C does.
-    So perhaps partly the anger at the changes in Python 3 comes from being spoiled.
-    We are used to Python code running forever and on different platforms.
-
 ----
 
 Was Python 3 a mistake?
@@ -125,28 +112,24 @@ Was Python 3 a mistake?
 
     * Unicode
 
-    Loads of other languages try to not break backwards compatibility, they just load more and more stuff on,
-    making the language more and more complex.
-    Is that really what we would like to do to Python?
-    C++ has 84 keywords, 10 of them was new in C++ 11.
-    Python has 33.
-    Python 3 has 1 new keyword, nonlocal.
-    And also three "old" non-keywords made into keywords; False, True and None.
-    It also has two taken away (exec and print).
-    Python is getting more complex because of new features, but it is also simplifying some bits.
-
-    Recently there has been reports that Python is now the number one language used in beginners programming classes on universities.
-    The simplicity of Python is a big reason for that.
+    C++ has 84 keywords, Python has 33.
+    This is a big reason that Python is popular: Python fits your brain.
     And if we want Python to continue to be everyones favourite language, that simplicity must remain.
 
+    C++ 11 had 10 new keywords.
+    Python 3 had only one really new keyword, nonlocal.
+    False, True and None was made keywords as well, but they existed before, so they don't count.
+    It also had two keywords taken away (exec and print).
+
     So I don't think Python 3 was a mistake.
+    I think it's necessary to keep is small and understandable.
 
 ----
 
 There are Third-party modules!
 ==============================
 
-* 165 of the 200 top packages support Python 3
+* 165 of the 200 top packages on the Cheeseshop support Python 3
 
 * Over 4000 Python 3 packages on the Cheeseshop.
 
@@ -162,10 +145,6 @@ There are Third-party modules!
     So really, it's only 26 of the top 200 packages that still need to support Python 3.
     And work is ongoing for most of them.
 
-    4 packages (suds, python-daemon, python-oauth2, python-openid) hasn't been updated for years,
-    and are likely unmaintained.
-    If you are using any of those, talk to the author, maybe a new maintainer would be welcome.
-
 ----
 
 You want Python 3
@@ -178,43 +157,24 @@ Although you might not know it yet
 
 ----
 
-Python 2
-========
+Extended Iterable Unpacking
+===========================
 
 .. code::
 
-    >>> parts = "a b c d".split()
-    >>> first = parts[0]
-    >>> last = parts[-1]
-    >>> first, last
-    ('a', 'd')
+    >>> first, second, *rest, last = "a b c d e f".split()
+    >>> first, second, last
+    ('a', 'b', 'f')
 
 .. note::
 
-    You all know how to get the first and last part of something in Python 2.
-    But did you know there is another way in Python 3?
+    The *rest bit will suck up anything that doesn't end up in any other variables.
+    You can only have one *rest per line, of course, but you can have both a first and a second, etc.
 
 ----
 
-Python 3: Extended Iterable Unpacking
-=====================================
-
-.. code::
-
-    >>> first, *rest, last = "a b c d".split()
-    >>> first, last
-    ('a', 'd')
-
-.. note::
-
-    What you say, eh? Ain't that neat?
-
-    The official name is Extended Iterable Unpacking, and it's PEP 3132 if you want to know more.
-
-----
-
-It works in functions too!
-==========================
+Keyword only arguments
+======================
 
 .. code::
 
@@ -226,8 +186,8 @@ It works in functions too!
 
 .. note::
 
+    This looks like the Extended Iterable Unpacking!
     The main effect of that is that you HAVE to pass in b as a keyword paremeter.
-    That's the intention of that feature. That's PEP 3102: Keyword-Only Arguments, for those interested.
 
 ----
 
@@ -254,6 +214,8 @@ Chained exceptions
 
     In Python 2, if you raise an exception during exception handling, the original exception is lost.
     In Python 3 you can chain them, and get both tracebacks, which is really handy for debugging.
+    You don't actually have to explicitly chain them in this case, they will be implicitly chained.
+    But raise from will chain exceptions even when it's not in a try/except case.
 
 ----
 
@@ -267,6 +229,16 @@ Better OS Exceptions
     For example you can now get a FileExistsError and a NotADirectoryError.
     This makes it much simpler to handle different errors separately.
     Also other operating system errors like IOError, are also now subclasses of OSError.
+
+----
+
+File handle warnings
+====================
+
+.. note::
+
+    If you don't close a file, you will get a warning when the file object is garbage collected.
+    Very nice to make sure you don't leave open files around.
 
 ----
 
@@ -310,12 +282,7 @@ asyncio
     I think enum perhaps is the most interesting one there.
 
     But one does not have a Python 2 backport, and that's asyncio, previously known as Tulip.
-    It seems very cool,  and you need Python 3.3 or later for that.
-
-----
-
-File handle warnings
-====================
+    It seems very cool, and you need Python 3.3 or later for that.
 
 ----
 
@@ -510,9 +477,6 @@ Bytes/Strings/Unicode
     And you may then wonder what it is that prompts some influential heavyweights to complain so much about Python 3.
     And the biggest issue is bytes/strings/unicode.
 
-    Unless you use doctests, then doctests is the biggest issue.
-    If you are using doctests, don't use doctests.
-
     But avoiding strings, bytes and Unicode is less easy.
     And the biggest issue is that the API for bytes and strings are slightly different.
     For example, if you iterate over a string, the values you get are one-character strings.
@@ -526,6 +490,7 @@ Bytes/Strings/Unicode
 
 You gotta keep'em separated
 ===========================
+
 
     This means that you need to always cleanly separate when you work with binary data,
     and when you work with textual data.
