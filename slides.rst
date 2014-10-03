@@ -39,6 +39,14 @@ There are no third-party modules!
 
 ----
 
+Who wants Python 3 anyway?
+==========================
+
+Python 2 is good enough!
+------------------------
+
+----
+
 You will have to spend hundreds of man-hours!
 =============================================
 
@@ -72,8 +80,9 @@ Does everything break?
     And even then, the tests broke and I had to fix them.
 
     So yes, every package is likely to break.
+    But that does not mean it's hard to fix, and I'll look at that later.
 
-----
+-----
 
 Does other languages break backwards compatibility?
 ===================================================
@@ -159,28 +168,6 @@ There are Third-party modules!
 
 ----
 
-Hundreds of man-hours? Really?
-==============================
-
-.. note::
-
-    Well, this really depends on the code you need to fix, and how much code of course.
-    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
-
-    Well, no, not perhaps, I have spent hundreds of man hours on it.
-    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
-    which are much harder to port to than Python 3.3 and later.
-    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
-
-    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
-    but also because less libraries were available,
-    so you needed to port more libraries that you didn't write.
-
-    But today the situation is very different.
-    I'm going to talk about this later, with a real world example.
-
-----
-
 You want Python 3
 =================
 
@@ -191,8 +178,8 @@ Although you might not know it yet
 
 ----
 
-Iterable Unpacking
-==================
+Python 2
+========
 
 .. code::
 
@@ -209,8 +196,8 @@ Iterable Unpacking
 
 ----
 
-Extended Iterable Unpacking
-===========================
+Python 3: Extended Iterable Unpacking
+=====================================
 
 .. code::
 
@@ -220,7 +207,7 @@ Extended Iterable Unpacking
 
 .. note::
 
-    What you say, eh? Aint that neat?
+    What you say, eh? Ain't that neat?
 
     The official name is Extended Iterable Unpacking, and it's PEP 3132 if you want to know more.
 
@@ -246,6 +233,22 @@ It works in functions too!
 
 Chained exceptions
 ==================
+
+.. code::
+
+    >>> try:
+    ...     1/0
+    ... except Exception as e:
+    ...     raise KeyError("wut?") from e
+    Traceback (most recent call last):
+      File "<stdin>", line 2, in <module>
+    ZeroDivisionError: division by zero
+
+    The above exception was the direct cause of the following exception:
+
+    Traceback (most recent call last):
+      File "<stdin>", line 4, in <module>
+    KeyError: 'wut?'
 
 .. note::
 
@@ -277,7 +280,27 @@ Yield from
 
 ----
 
-Asyncio
+Simply super
+============
+
+Python 2
+--------
+
+.. code::
+
+    super(ClassName, self).method(foo, bar)
+
+
+Python 3
+--------
+
+.. code::
+
+    super().method(foo, bar)
+
+----
+
+asyncio
 =======
 
 .. note::
@@ -285,39 +308,84 @@ Asyncio
     There are several new modules in later versions of Python 3.
     Most of them have backports so you can use them anyway.
     I think enum perhaps is the most interesting one there.
-    But AsyncIO does not have a Python 2 backport.
-    You need Python 3.3 or later.
 
-
-
-----
-
-Most changes are not so bad
-===========================
-
+    But one does not have a Python 2 backport, and that's asyncio, previously known as Tulip.
+    It seems very cool,  and you need Python 3.3 or later for that.
 
 ----
 
-.. code:: python
+File handle warnings
+====================
 
-    except Exception, e:
+----
 
-Turned into
-
-.. code:: python
-
-    except Exception as e:
+Hundreds of man-hours? Really?
+==============================
 
 .. note::
 
-    The first syntax is not allowed in Python 3.
-    But, the second syntax is allowed in Python 2.6 and 2.7.
-    That means that you can perfectly well write code that runs on both Python 2 and Python 3 using the new syntax,
-    as long as you don't need to support versions before Python 2.6.
+    Well, this really depends on the code you need to fix, and how much code of course.
+    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
+
+    Well, no, not perhaps, I have spent hundreds of man hours on it.
+    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
+    which are much harder to port to than Python 3.3 and later.
+    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
+
+    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
+    but also because less libraries were available,
+    so you needed to port more libraries that you didn't write.
+
+    But today the situation is very different.
+    I'm going to talk about this later, with a real world example.
 
 ----
 
-Other changes has explicit forward compatibility, like the new division and the print function:
+Supporting Python 3 is not so bad
+=================================
+
+.. note::
+
+    Although every package is likely to break in some way, most code will not break.
+
+----
+
+Many changes are handled by 2to3
+================================
+
+* Exception syntax
+
+* `print` is a function
+
+* `xrange` is gone
+
+* Standard library reorganisation
+
+* etc...
+
+.. note::
+
+    Most changes are handled by 2to3, but maybe not always in the prettiest way.
+
+----
+
+Some changes need no handling at all
+====================================
+
+* dict.keys() no longer returns a list
+
+* Indentation is stricter
+
+* Long and Int are merged
+
+.. note::
+
+    Other changes typically will not affect you at all, unless you are violating good coding practices.
+
+----
+
+If you need Python 2 compatibility
+==================================
 
 .. code:: python
 
@@ -326,39 +394,144 @@ Other changes has explicit forward compatibility, like the new division and the 
 
     print("Three halves is written", 3/2, "with decimals.")
 
+.. note::
 
-Some backwards compatibility has also been added back in Python 3.
-The most important of those is that in Python 3.3 the u'' prefix for Unicode was added back.
-In addition there are now libraries out there that will help you, like six and futurize.
+    Other changes has explicit forward compatibility, like the new division and the print function.
+    This is useful if you need to keep Python 2 compatibility,
+    which you typically only need if you are adding Python 3 support to a library.
 
-This means that as long as you don't need to support Python 2.5 or Python 3.2,
-writing code that runs on both Python 2 and Python 3 is not that hard.
+----
+
+u'' is back!
+============
+
+.. note::
+
+    Some backwards compatibility has also been added back in later Python 3 versions.
+    The most important of those is that in Python 3.3 the u'' prefix for Unicode was added back.
+    In addition there are now libraries out there that will help you, like six and futurize.
+
+    This means that as long as you don't need to support Python 2.5 or Python 3.2,
+    writing code that runs on both Python 2 and Python 3 is not that hard.
+
+    So what IS hard?
+
+----
+
+API changes
+===========
+
+.. note::
+
+    If you need to change your libraries API to be Python 3 compatible, that's a pain.
+
+----
+
+Example 1: zope.component
+=========================
+
+.. code::
+
+    class TheComponent(object):
+        implements(ITheInterface)
 
 
-But when it's bad, it's really bad
-==================================
+.. note::
 
-And you may then wonder what it is that prompts some influential heavyweights to complain so much about Python 3.
-And the biggest issue is bytes/strings/unicode.
+    This syntax used in Python 2 relies on how metaclasses work in Python 2.
+    The implements statement is actually executed, and it inserts a metaclass in the local context,
+    which in turn makes the class creation use a metaclass.
 
-Unless you use doctests, then doctests is the biggest issue.
-If you are using doctests, don't use doctests.
+    This doesn't work in Python 3, because metaclasses are not declared in the class body.
 
-But avoiding string, bytes and Unicode is less easy.
-And the biggest issue is that the API for bytes and strings are slightly different.
-For example, if you iterate over a string, the values you get are one-character strings.
-However, if you iterate over a bytes string, you get integers!
-There are other differences as well,
-and this makes it hard to support both bytes and strings with the same API,
-which is something you often want to do.
-You get similar problems with supporting both strings and Unicode under Python 2.
-For example, the new io.StringIO class will only work with Unicode.
+----
 
-This means that you need to always cleanly separate when you work with binary data,
-and when you work with textual data.
-In Python 2 you often did not need to make such a separation.
-That led to a lot of confusion with regards to Unicode, and a lot of problems,
-but if your code is working, this new setup means more work for you.
+
+Example 1: zope.component
+=========================
+
+.. code::
+
+    @implementor(ITheInterface)
+    class TheComponent(object):
+        pass
+
+.. note::
+
+    But instead there is now class decorators.
+    So the API needed to change.
+
+    Lesson learned: Don't use Python magic as an API.
+    That said, when this API was created in 2001 there wan't much choice.
+
+    A fixer was needed to make it possible to change the API with 2to3.
+    Writing fixers is HARD partly because it's badly documented.
+    Try to avoid it.
+
+----
+
+Example 2: icalendar
+====================
+
+.. code::
+
+    ical = str(icalendarobject)
+
+.. note::
+
+    In the module called icalendar there are icalendar objects.
+    These represent an icalendar file, and to make the file you just make it into a string.
+    The result is a UTF-8 encoded iCalendar string.
+
+    But in Python 3, strings are Unicode. So this fails.
+
+----
+
+Example 2: icalendar
+====================
+
+.. code::
+
+    ical = icalendarobject.to_ical()
+
+.. note::
+
+    Much better.
+
+    Lesson learned: Don't use dunder methods as an API.
+
+----
+
+Bytes/Strings/Unicode
+=====================
+
+.. note::
+
+    And you may then wonder what it is that prompts some influential heavyweights to complain so much about Python 3.
+    And the biggest issue is bytes/strings/unicode.
+
+    Unless you use doctests, then doctests is the biggest issue.
+    If you are using doctests, don't use doctests.
+
+    But avoiding strings, bytes and Unicode is less easy.
+    And the biggest issue is that the API for bytes and strings are slightly different.
+    For example, if you iterate over a string, the values you get are one-character strings.
+    However, if you iterate over a bytes string, you get integers!
+    There are other differences as well, and this makes it hard to support both bytes and strings with the same API,
+    which is something you often want to do.
+    You get similar problems with supporting both strings and Unicode under Python 2.
+    For example, the new io.StringIO class will only work with Unicode.
+
+----
+
+You gotta keep'em separated
+===========================
+
+    This means that you need to always cleanly separate when you work with binary data,
+    and when you work with textual data.
+    In Python 2 you often did not need to make such a separation.
+    That led to a lot of confusion with regards to Unicode, and a lot of problems,
+    but if your code is working, this new setup means more work for you.
 
 Other cases when it's not fun is when your API don't work under Python 3, or won't make sense.
 The icalendar module had an API where you used str(icalendar) to generate the UTF-8 encoded icalendar output.
@@ -367,6 +540,7 @@ The API needed to be changed.
 lxml has a .tostring() method, which will give you bytes under Python 3, unless you explicitly pass in the encoding 'unicode'.
 This can be confusing...
 
+----
 
 Practical Experiences
 =====================
@@ -394,6 +568,8 @@ Diazo takes the same concepts and the same rule syntax as Deliverence, but it ac
 You can then let nginx or apache do this mapping.
 Or you can use the included WSGI server, or you can use it as a library inside your web framework.
 
+----
+
 Tool 1: caniusepython3
 ======================
 
@@ -405,6 +581,8 @@ So in other words, caniusepython3 will now essentially recommend which package I
 
 In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
 
+----
+
 Adding Python 3 support to collective.checkdocs
 ===============================================
 
@@ -414,6 +592,8 @@ I started that process (svn2git takes hours to run on that repository, it's huge
 and I mailed the original author to make sure that he is OK with it.
 
 Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
+
+----
 
 Tool 2: Virtualenv
 ==================
@@ -436,6 +616,8 @@ And then I simply run the tests with
 
 etc. It's a little bit more work to get started, but unlike using Tox is actually worked.
 
+----
+
 Tool 3: 2to3
 ============
 
@@ -448,6 +630,7 @@ I clean up things a bit, add a MANIFEST.in etc, makes sure Pyroma thinks the cod
 
 Total time spent, including setting up Tox and then not using it anyway: Around 4 hours. The new version is released already.
 
+----
 
 Adding Python 3 support to repoze.xmliter
 =========================================
@@ -456,6 +639,8 @@ repoze.xmliter is a wrapper to lxml that you can iterate over.
 It will then give you chunks of byte strings of XML.
 Not the most exiting module on PyPI, but interesting for this project, because it needs to handle both binary data and text!
 This as we know, make it a Tricky Module to support Python 3.
+
+----
 
 Tool 4: Futurize
 ================
@@ -484,6 +669,7 @@ It was, but there were no tests for it.
 
 In total the work to port, including false starts, cleanups and added tests was no more than 6 hours.
 
+----
 
 Adding Python 3 support to Diazo
 ================================
@@ -503,6 +689,8 @@ and switch from cStringIO to io.BytesIO.
 
 Total time: 3 hours
 
+----
+
 Updating the documentation
 ==========================
 
@@ -512,6 +700,8 @@ The test setup also uses a lot of Paste apps, like urlmap and proxy, so I can't 
 I needed one that used PasteDeploy.
 A Python 3 compatible server designed to replace Paste's server exists in gearbox, but what about the apps?
 
+----
+
 Tool 5: Twitter!
 ================
 
@@ -519,6 +709,8 @@ I was discussing the issue on Twitter as I was preparing to port Paste's static 
 The urlmap app was already ported as "rutter".
 But then Ian Bicking pointed out that the apps I wanted to port already had been ported and was a part of WebOb!
 However, it did not have any PasteDeploy entry points, so I needed to fix that.
+
+----
 
 webobentrypoints
 ================
@@ -531,12 +723,16 @@ This took a long time because I neede to learn about the PasteDeploy entry point
 and I needed to re-learn WSGI which I hadn't looked at for years.
 All in all this probably took 4-6 hours, of which maybe one was spent actually making the webobentrypoints package.
 
+----
+
 Less than 20 hours!
 ===================
 
 That included porting collective.checkdocs, repoze.xmliter, Diazo and writing webobentrypoints.
 Much of the time was not spent actually porting, but learning what the various modules actually did.
 
+
+----
 
 Conclusions
 ===========
