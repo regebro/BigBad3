@@ -168,8 +168,8 @@ Extended Iterable Unpacking
 
 .. note::
 
-    The *rest bit will suck up anything that doesn't end up in any other variables.
-    You can only have one *rest per line, of course, but you can have both a first and a second, etc.
+    The `*rest` bit will suck up anything that doesn't end up in any other variables.
+    You can only have one `*rest` per line, of course, but you can have both a first and a second, etc.
 
 ----
 
@@ -488,63 +488,80 @@ Bytes/Strings/Unicode
 
 ----
 
-You gotta keep'em separated
-===========================
+You gotta keep'em separated!
+============================
 
+.. note::
 
     This means that you need to always cleanly separate when you work with binary data,
     and when you work with textual data.
-    In Python 2 you often did not need to make such a separation.
-    That led to a lot of confusion with regards to Unicode, and a lot of problems,
-    but if your code is working, this new setup means more work for you.
+    Don't use the same variables for both Unicode text and binary data, if you can avoid it.
 
-Other cases when it's not fun is when your API don't work under Python 3, or won't make sense.
-The icalendar module had an API where you used str(icalendar) to generate the UTF-8 encoded icalendar output.
-Obviously that doesn't work in Python 3, as str(icalendar) would generate Unicode, not an 8-bit string.
-The API needed to be changed.
-lxml has a .tostring() method, which will give you bytes under Python 3, unless you explicitly pass in the encoding 'unicode'.
-This can be confusing...
+    In Python 2 you often did not need to make such a separation.
+    That led to a lot of confusion with regards to Unicode, and a lot of problems.
 
 ----
 
 Practical Experiences
 =====================
 
-When preparing for this talk I decided to look at the current state of Python 3 support.
-I wanted to know how difficult it would typically be to help port the libraries you depend on.
-To do that I needed to port some package that I didn't already know intimately, and decided on Diazo.
+.. note::
 
-I picked Diazo because I looked at the Python Wall of Superpowers. https://python3wos.appspot.com/
-Most of the modules support Python 3 already.
-And those who do not often already have Python 3 support efforts.
+    When preparing for this talk I decided to look at the current state of Python 3 support.
+    I wanted to know how difficult it would typically be to help port the libraries you depend on.
+    To do that I needed to port some package that I didn't already know intimately, and decided on Diazo.
 
-But far down I found "Deliverence".
-Deliverence doens't have Python 3 support and there are two reasons for that.
-One is that it's a standalone program, and not a library, so it not supporting Python 3 is not a big problem.
-The other is that although less popular, Diazo is generally a better alternative, which is why I decided to port Diazo.
+    I picked Diazo because I looked at the Python Wall of Superpowers. https://python3wos.appspot.com/
+    Most of the modules support Python 3 already.
+    And those who do not often already have Python 3 support efforts.
 
-Let me first explain what Deliverence and Diazo does.
-Deliverence and Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
-It means you can have a designer create the design as static HTML and then you can map your dynamic site into that design without even modifying your site.
-So you can style your PHP site or your Plone site without actually knowing either PHP or Plone.
-Brilliant! We've used it on pretty much any site I've been involved with the last 4 years.
+    But far down I found "Deliverence".
+    Deliverence doens't have Python 3 support and there are two reasons for that.
+    One is that it's a standalone program, and not a library, so it not supporting Python 3 is not a big problem.
+    The other is that although less popular, Diazo is generally a better alternative, which is why I decided to port Diazo.
 
-Diazo takes the same concepts and the same rule syntax as Deliverence, but it actually compiles the rules into XSLT.
-You can then let nginx or apache do this mapping.
-Or you can use the included WSGI server, or you can use it as a library inside your web framework.
+    Let me first explain what Deliverence and Diazo does.
+
+----
+
+Deliverance
+===========
+
+.. note::
+
+    Deliverence and Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
+    It means you can have a designer create the design as static HTML and then you can map your dynamic site into that design without even modifying your site.
+    So you can style your PHP site or your Plone site without actually knowing either PHP or Plone.
+    Brilliant! We've used it on pretty much any site I've been involved with the last 4 years.
+
+
+----
+
+Diazo
+=====
+
+.. note::
+
+    Diazo takes the same concepts and the same rule syntax as Deliverence, but it actually compiles the rules into XSLT.
+    You can then let nginx or apache do this mapping.
+    Or you can use the included WSGI server, or you can use it as a library inside your web framework.
+
+    So, how did I add Python 3 support?
 
 ----
 
 Tool 1: caniusepython3
 ======================
 
-This is both a command line tool and a website. https://caniusepython3.com/
-It's not perfect, but it's helpful as a way to evaluate the application.
-It told me it needed repoze.xmliter, but I think they have changed how it works slightly.
-Now it only reports the packages that do not support Python 3, but where all dependencies support Python 3.
-So in other words, caniusepython3 will now essentially recommend which package I should add Python 3 support to first.
+.. note::
 
-In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
+    This is both a command line tool and a website. https://caniusepython3.com/
+    It's not perfect, but it's helpful as a way to evaluate the application.
+    It told me it needed repoze.xmliter, but I think they have changed how it works slightly.
+    Now it only reports the packages that do not support Python 3, but where all dependencies support Python 3.
+    So in other words, caniusepython3 will now essentially recommend which package I should add Python 3 support to first.
+
+    In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
 
 ----
 
