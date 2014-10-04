@@ -553,123 +553,238 @@ Diazo
 Tool 1: caniusepython3
 ======================
 
+https://caniusepython3.com/
+
+.. code::
+
+    $ caniusepython3 --project diazo
+
+    You need 3 projects to transition to Python 3.
+    Of those 3 projects, 2 has no direct dependencies blocking its transition:
+
+      repoze.xmliter (which is blocking diazo)
+      experimental.cssselect (which is blocking diazo)
+
 .. note::
 
-    This is both a command line tool and a website. https://caniusepython3.com/
+    This is both a command line tool and a website.
     It's not perfect, but it's helpful as a way to evaluate the application.
-    It told me it needed repoze.xmliter, but I think they have changed how it works slightly.
-    Now it only reports the packages that do not support Python 3, but where all dependencies support Python 3.
-    So in other words, caniusepython3 will now essentially recommend which package I should add Python 3 support to first.
 
-    In any case I started porting repoze.xmliter, and it will during testing use another module, collective.checkdocs that didn't support Python 3.
+    In this case it turns out that experimental.cssselect works under Python 3, but does not declare it.
+
+    So I checkout out repoze.xmliter, which turns out to use a package called collective.checkdocs that didn't support Python 3.
+    caniusepython3 doesn't report that, because it's a package used during development and not a requirement.
+    I could have just dropped the usage of collective.checkdocs, but I decided to add Python 3 support to it instead.
 
 ----
 
 Adding Python 3 support to collective.checkdocs
 ===============================================
 
-The collective.checkdocs source is on the Plone Collective svn server,
-which is in read only mode, so I need to first migrate it to the collective repo on github.
-I started that process (svn2git takes hours to run on that repository, it's huge)
-and I mailed the original author to make sure that he is OK with it.
+.. note::
 
-Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
+    collective.checkdocs is a small utility to check that your package description renders to HTML properly.
 
-----
+    The collective.checkdocs source is on the Plone Collective svn server,
+    which is in read only mode, so I need to first migrate it to the collective repo on github.
+    I started that process (svn2git takes hours to run on that repository, it's huge)
+    and I mailed the original author to make sure that he is OK with it.
 
-Tool 2: Virtualenv
-==================
-
-Tox can help you run tests on a module for several Python versions.
-It's a big buyers beware here, though.
-Tox used to be good, but now it is starting to be quite brittle, and doesn't work with all Python versions etc.
-In my experience the last months, it's now more trouble that it's worth.
-I have unfortunately not had any time to actually dig into the problems, with Tox.
-Hopefully this will get better in the future.
-
-But I have instead of using Tox simply set up virtualenvs for each version I want to test:
-
-    /opt/python26/bin/virtualenv .py26
-    ./.py26/bin/python setup.py develop
-
-And then I simply run the tests with
-
-    ./.py26/bin/python setup.py test
-
-etc. It's a little bit more work to get started, but unlike using Tox is actually worked.
+    Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
 
 ----
 
-Tool 3: 2to3
+Tool 2: 2to3
 ============
 
-I then ran 2to3 on the code to update things to Python 3.
-It doesn't work perfectly, I need to clean up the imports manually.
-I also need to add a from __future__ import print_function to get it to run under Python 2.
+.. code::
 
-I add Python 3.2, 3.3 and 3.4 to the list of supported versions in setup.py.
-I clean up things a bit, add a MANIFEST.in etc, makes sure Pyroma thinks the code is creamy, and release the module to PyPI.
+    $ 2to3 -w .
 
-Total time spent, including setting up Tox and then not using it anyway: Around 4 hours. The new version is released already.
+.. note::
+
+    I then ran 2to3 on the code to update things to Python 3.
+    It didn't work perfectly, I needed to clean up the imports manually.
+    I also needed to add a from __future__ import print_function to get it to run under Python 2.
+
+    I added Python 3.2, 3.3 and 3.4 to the list of supported versions in setup.py,
+    and cleaned up things a bit, add a MANIFEST.in etc, and release the module to Cheeseshop.
+
+----
+
+collective.checkdocs
+====================
+
+Time spent: ~4h
+---------------
+
+.. note::
+
+    Total time spent, including setting up Tox and then not using it anyway: Around 4 hours.
 
 ----
 
 Adding Python 3 support to repoze.xmliter
 =========================================
 
-repoze.xmliter is a wrapper to lxml that you can iterate over.
-It will then give you chunks of byte strings of XML.
-Not the most exiting module on PyPI, but interesting for this project, because it needs to handle both binary data and text!
-This as we know, make it a Tricky Module to support Python 3.
+.. note::
+
+    repoze.xmliter is a wrapper to lxml that you can iterate over.
+    It will then give you chunks of byte strings of XML.
+
+    Not the most exiting module on Cheeseshop, but it is interesting for this talk, as it needs to handle both binary data and text!
+    This as we know, make it a Tricky Module.
 
 ----
 
-Tool 4: Futurize
-================
+Tool 3a: Tox
+============
 
-Futurize is an extension to Python 3 that supposedly keep Python 2 compatibility when doing the fixes.
+.. code::
 
-So I tried to use futurize here, but that doesn't work.
-After running futurize the code stopped working in Python 2, and still did not work in Python 3.
-I fought with this a bit, and ended up starting over.
+    $ tox
 
-What I end up doing is running the tests under Python 3, and fixing error by error,
-while after each fix running it under Python 2 to make sure it didn't break.
+    __________________ summary __________________
+      py26: commands succeeded
+      py27: commands succeeded
+    ERROR:   py34: commands failed
+      pep8: commands succeeded
 
-And here we come to one of the biggest complaints about Python 3 that is actually true.
-This type of code often ends up ugly.
-There are a lot of checks for if the input is byte strings or Unicode strings, and as we all know, type checking is unpythonic.
+.. note::
 
-In this case I could cheat, because the relevant methods take an encoding parameter,
-so now you can either pass in what encoding the byte string is using,
-or you pass in the unicode object instead of a name of an encoding.
-So I don't actually do type checking, it's inferred otherwise in this case.
-But often you need to check the type.
+    To make sure your module runs on several versions of Python you can use tox.
+    It will create a virtualenv for each Python version you want to support and run the tests with it.
+    This makes for a quick way to run tests under multiple Python versions.
 
-I also needed to add tests to make sure Unicode was supported.
-It was, but there were no tests for it.
+    A small caveat emptor: I have loads of problems with it not working for certain Python version etc.
+    I think it used to be good but seems to have become quite brittle,
+    but I haven't had time to look into it.
 
-In total the work to port, including false starts, cleanups and added tests was no more than 6 hours.
+
+----
+
+Tool 3b: Virtualenv + bash
+==========================
+
+.. code::
+
+    $ virtualenv-2.7 .venv/py27
+    $ virtualenv-3.4 .venv/py34
+
+And a small script:
+
+.. code::
+
+    #!/bin/bash
+    .venv/py27/bin/python setup.py test
+    .venv/py34/bin/python setup.py test
+
+.. note::
+
+    In that case you can simply create virtualenvs for the Python versions you support, and make a small script.
+    If you have many tests you may need to scroll back to see if the tests passed or not but it works.
+
+----
+
+The Unicode problem
+===================
+
+.. code::
+
+    if sys.version_info > (3,):
+        unicode = str
+
+    doctype_re_b = re.compile(b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
+    doctype_re_u = re.compile(u"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
+
+    ...
+
+    if isinstance(result, unicode):
+        result, subs = doctype_re_u.subn(self.doctype, result, 1)
+    else:
+        result, subs = doctype_re_b.subn(self.doctype.encode(), result, 1)
+
+.. note::
+
+    So, it's a tricky module with unicode issues.
+    A lot of the fixes I had to do was just making string literals into byte literals, especially in the tests.
+    But I also had to in some cases add tests to check if a variable was bytes or unicode.
+
+    And here we come to one of the biggest complaints about Python 3 that is actually true:
+    This type of code often ends up ugly, and as we all know, type checking is unpythonic.
+
+    I also needed to add tests for the Unicode support in repoze.xmliter.
+    The support was there, but there were no tests for it.
+
+----
+
+repoze.xmliter
+==============
+
+Time spent: < 6h
+----------------
+
+.. note::
+
+    In total the work to support Python 3 including false starts, cleanups and added tests was no more than 6 hours.
 
 ----
 
 Adding Python 3 support to Diazo
 ================================
 
-Now time had come to Diazo itself.
-With Diazo I again first quickly tried to run the code through futurize to see if it would still work with Python 2 afterwards.
-Again it would not, so I did the same thing I did with repoze.xmliter, and would run the tests under Python 3,
-fix a test failure, make sure it still ran under Python 2, and then repeat.
+.. note::
 
-In the case of Diazo I was affected a lot by the import reorganization, so what I did here was that I included future as a dependency,
-and I when I found a problem that could be solved by a fixer, I ran that specific fixer on the code with
+    Now time had come to Diazo itself.
+    And then it's time for another tool, futurize!
 
-futurize -w -f <thespecificfixer> .
+Tool 4: Futurize
+================
 
-The main thing I needed to do manually after this was change all the tests to use byte strings instead of native strings,
-and switch from cStringIO to io.BytesIO.
+.. code::
 
-Total time: 3 hours
+    $ pip install future
+
+.. note::
+
+    Future is a compatibility layer between Python 2 and Python 3,
+    and also a set of fixers for 2to3 that preserve compatibility between Python 2 and Python 3.
+    These sets of fixers are called futurize for moving from Python 2 to Python 3,
+    and pasteurize for going the other way.
+
+    So I tried to use futurize here, but that didn't work.
+    In fact, I tried it for repoze.xmliter as well, and it didn't work then either.
+    After running futurize the code stopped working in Python 2, and still did not work in Python 3.
+    I fought with this a bit with repoze.xmliter, and ended up starting over.
+
+    With Diazo I again first quickly tried to run the code through futurize to see if it would still work with Python 2 afterwards.
+    Again it would not, so I did the same thing I did with repoze.xmliter, and would run the tests under Python 3,
+    fix a test failure, make sure it still ran under Python 2, and then repeat.
+
+    In the case of Diazo I was affected a lot by the import reorganization, so what I did here was I included future as a dependency,
+    and I when I found a problem I would find a fixer that could be solved it, and ran that specific fixer.
+
+----
+
+Tool 4: Futurize
+================
+
+.. code::
+
+    futurize -w -f <thespecificfixer> .
+
+.. note::
+
+    I could fix most problems like this, again except without Unicode problems.
+
+    The main thing I needed to do manually after this was change all the tests to use byte strings instead of native strings,
+    and switch from cStringIO to io.BytesIO.
+
+    When I submitted te Python 3 support as a pull request on github, I got some feedback about the way future's impotr hooks worked.
+    It turned out when reading the code, that these import hooks were not actually needed.
+    I recommend you to look carefully att the fixes
+
+    Total time: 3 hours
 
 ----
 
@@ -677,20 +792,10 @@ Updating the documentation
 ==========================
 
 The Diazo buildout includes a default test setup with Paste so you can develop your theme rules without nginx or Apache.
-But Paste is not and will not be ported to Python 3.
+But Paste is will not get suppotr for Python 3.
 The test setup also uses a lot of Paste apps, like urlmap and proxy, so I can't just switch it out for any old  WSGI server.
 I needed one that used PasteDeploy.
 A Python 3 compatible server designed to replace Paste's server exists in gearbox, but what about the apps?
-
-----
-
-Tool 5: Twitter!
-================
-
-I was discussing the issue on Twitter as I was preparing to port Paste's static and proxy apps.
-The urlmap app was already ported as "rutter".
-But then Ian Bicking pointed out that the apps I wanted to port already had been ported and was a part of WebOb!
-However, it did not have any PasteDeploy entry points, so I needed to fix that.
 
 ----
 
