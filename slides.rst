@@ -762,7 +762,7 @@ Tool 4: Futurize
     fix a test failure, make sure it still ran under Python 2, and then repeat.
 
     In the case of Diazo I was affected a lot by the import reorganization, so what I did here was I included future as a dependency,
-    and I when I found a problem I would find a fixer that could be solved it, and ran that specific fixer.
+    and I when I found a problem I would find a fixer that could solved that problem, and I ran that specific fixer.
 
 ----
 
@@ -776,50 +776,144 @@ Tool 4: Futurize
 .. note::
 
     I could fix most problems like this, again except without Unicode problems.
+    This is faster than doing the changes manually, unless you can do the changes with search and replace.
 
-    The main thing I needed to do manually after this was change all the tests to use byte strings instead of native strings,
+    The main thing I needed to do manually after this, was to change all the tests to use byte strings instead of native strings,
     and switch from cStringIO to io.BytesIO.
 
-    When I submitted te Python 3 support as a pull request on github, I got some feedback about the way future's impotr hooks worked.
+    When I submitted te Python 3 support as a pull request on github,
+    I got some feedback about the way future's import hooks were used.
     It turned out when reading the code, that these import hooks were not actually needed.
-    I recommend you to look carefully att the fixes
-
-    Total time: 3 hours
+    So I recommend you to look carefully at the changes each fix does to see if all it does is really needed,
+    because sometimes it's not.
 
 ----
 
 Updating the documentation
 ==========================
 
-The Diazo buildout includes a default test setup with Paste so you can develop your theme rules without nginx or Apache.
-But Paste is will not get suppotr for Python 3.
-The test setup also uses a lot of Paste apps, like urlmap and proxy, so I can't just switch it out for any old  WSGI server.
-I needed one that used PasteDeploy.
-A Python 3 compatible server designed to replace Paste's server exists in gearbox, but what about the apps?
+.. note::
+
+    The Diazo buildout includes a default test setup with Paste so you can develop your theme rules without nginx or Apache.
+    But Paste is will not get support for Python 3.
+    The test setup also uses a three Paste apps, like urlmap, static and proxy,
+    and the documentation was based on using PasteDeploy-style ini-files to configure the server.
+    So I needed to use a WSGI server that uses PasteDeploy and runs on both Python 2 and Python 3.
+
 
 ----
 
-webobentrypoints
-================
+Updating the documentation
+==========================
 
-So I started a package simply called "webobentrypoints".
-As of today, it only contains PasteDeploy entry points for the static directory app and using the client app as a proxy,
-because that's what was needed. I'll try to get time to add entry points for the other apps as well.
+1. Replace the WSGI server with gearbox
 
-This took a long time because I neede to learn about the PasteDeploy entry points,
-and I needed to re-learn WSGI which I hadn't looked at for years.
-All in all this probably took 4-6 hours, of which maybe one was spent actually making the webobentrypoints package.
+2. Replace Paster#urlmap with rutter
+
+3. Replace Paster#static with ???
+
+4. Replace Paster#proxy with ???
+
+.. note::
+
+    There is also a replacement for Pasters urlmap application in rutter.
+    The replacements for Paster static and Paster proxy exists in WebOb, but WebOb has no PasteDeploy entrypoints.
 
 ----
 
-Less than 20 hours!
-===================
+Introducing webobentrypoints
+============================
 
-That included porting collective.checkdocs, repoze.xmliter, Diazo and writing webobentrypoints.
-Much of the time was not spent actually porting, but learning what the various modules actually did.
+1. Replace the WSGI server with gearbox
 
+2. Replace Paster#urlmap with rutter
+
+3. Replace Paster#static with webobentrypoints#staticdir
+
+4. Replace Paster#proxy with webobentrypoints#proxy
+
+.. note::
+
+    So I started a package simply called "webobentrypoints".
+    As of today, it only contains PasteDeploy entry points for the static directory app and using the client app as a proxy,
+    because that's what was needed. I'll try to get time to add entry points for the other apps as well.
+
+    This took a long time because I neede to learn about the PasteDeploy entry points,
+    and I needed to re-learn WSGI which I hadn't looked at for years.
+
+    All in all this probably took 4-6 hours, of which maybe one was spent actually making the webobentrypoints package.
+
+----
+
+Diazo
+=====
+
+Adding Python 3 support to Diazo: ~3h
+-------------------------------------
+
+Switching from Paster: < 6h
+---------------------------
+
+.. note::
+
+    So total time for Diazo itself was around 8 hours.
+
+----
+
+Total time: Less than 20 hours!
+===============================
+
+.. note::
+
+    So total time to add Python 3 support to Diazo was 15 to 20 hours.
+
+    That included porting collective.checkdocs, repoze.xmliter, Diazo and writing webobentrypoints.
+    Much of the time was not spent actually porting, but learning what the various modules actually did.
+
+    repoze.xmliter and Diazo has not been release in Python 3 compatible versions yet, but that will happen sooner or later.
 
 ----
 
 Conclusions
 ===========
+
+* No, Python 3 is not a mistake!
+
+* Yes, you want to use Python 3.
+
+* No, it's really not that hard (mostly).
+
+----
+
+Just Do It!
+===========
+
+----
+
+Yes We Can!
+===========
+
+----
+
+YOLO!
+=====
+
+----
+
+Been there, done that!
+======================
+
+----
+
+You can do it!
+==============
+
+----
+
+Questions?
+==========
+
+----
+
+Thanks!
+=======
