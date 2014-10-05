@@ -1,6 +1,6 @@
 :skip-help: true
 :title: Who's Afraid of the Big Bad 3
-:auto-console: true
+:auto-console: false
 :css: css/slides.css
 
 ----
@@ -15,8 +15,26 @@ PyCon Ireland, Dublin 2014
 
 ----
 
-Python 3 is really a new language!
-==================================
+You will have to spend hundreds of man-hours!
+=============================================
+
+----
+
+Who wants Python 3 anyway?
+==========================
+
+Python 2 is good enough!
+------------------------
+
+----
+
+There are no third-party modules!
+=================================
+
+----
+
+Python 3 was a mistake!
+=======================
 
 ----
 
@@ -30,26 +48,8 @@ No other language ever break backwards compatibility!
 
 ----
 
-Python 3 was a mistake!
-=======================
-
-----
-
-There are no third-party modules!
-=================================
-
-----
-
-Who wants Python 3 anyway?
-==========================
-
-Python 2 is good enough!
-------------------------
-
-----
-
-You will have to spend hundreds of man-hours!
-=============================================
+Python 3 is really a new language!
+==================================
 
 ----
 
@@ -58,8 +58,7 @@ Or?
 
 ----
 
-Python 3 is Python!
-===================
+:data-x: r-1600
 
 .. note::
 
@@ -68,19 +67,6 @@ Python 3 is Python!
     That is not the case, I promise.
 
 ----
-
-Does everything break?
-======================
-
-.. note::
-
-    Not all code breaks, but yes, every non-trivial package is likely to break.
-    But that does not mean it's hard to fix, and I'll look at that later.
-
------
-
-Does other languages break backwards compatibility?
-===================================================
 
 .. note::
 
@@ -98,12 +84,16 @@ Does other languages break backwards compatibility?
 
 ----
 
-Was Python 3 a mistake?
-=======================
+.. note::
+
+    Not all code breaks, but yes, every non-trivial package is likely to break.
+    But that does not mean it's hard to fix, and I'll look at that later.
+
+----
 
 .. note::
 
-    There was several mistakes that could only be fixed by breaking backwards compatibility.
+    There was several mistakes in Python 2 that could only be fixed by breaking backwards compatibility.
 
     * Floor division
 
@@ -127,8 +117,17 @@ Was Python 3 a mistake?
 
 ----
 
-There are Third-party modules!
-==============================
+.. note::
+
+    There ARE third party-modules.
+
+----
+
+:data-x: r0
+:data-y: r1000
+
+Time to Third-party!
+====================
 
 * 165 of the 200 top packages on the Cheeseshop support Python 3
 
@@ -148,8 +147,16 @@ There are Third-party modules!
 
 ----
 
-You want Python 3
-=================
+:data-x: r-1600
+:data-y: r-1000
+
+----
+
+:data-x: r0
+:data-y: r1000
+
+You want Python 3!
+==================
 
 Although you might not know it yet
 ----------------------------------
@@ -285,8 +292,8 @@ asyncio
 
 ----
 
-Hundreds of man-hours? Really?
-==============================
+:data-x: r-1600
+:data-y: r-9000
 
 .. note::
 
@@ -303,9 +310,12 @@ Hundreds of man-hours? Really?
     so you needed to port more libraries that you didn't write.
 
     But today the situation is very different.
-    I'm going to talk about this later, with a real world example.
 
 ----
+
+:data-x: r0
+:data-y: r-1000
+
 
 Supporting Python 3 is not so bad
 =================================
@@ -315,6 +325,9 @@ Supporting Python 3 is not so bad
     Although every package is likely to break in some way, most code will not break.
 
 ----
+
+:data-x: r1600
+:data-y: r0
 
 Many changes are handled by 2to3
 ================================
@@ -380,9 +393,18 @@ u'' is back!
     This means that as long as you don't need to support Python 2.5 or Python 3.2,
     writing code that runs on both Python 2 and Python 3 is not that hard.
 
-    So what IS hard?
+----
+
+:data-x: r-6400
+:data-y: r-1000
+
+So what IS hard?
+================
 
 ----
+
+:data-x: r1600
+:data-y: r0
 
 API changes
 ===========
@@ -468,6 +490,9 @@ Example 2: icalendar
 
 ----
 
+:data-x: r-6400
+:data-y: r-1000
+
 Bytes/Strings/Unicode
 =====================
 
@@ -487,6 +512,9 @@ Bytes/Strings/Unicode
 
 ----
 
+:data-x: r1600
+:data-y: r0
+
 You gotta keep'em separated!
 ============================
 
@@ -500,6 +528,9 @@ You gotta keep'em separated!
     That led to a lot of confusion with regards to Unicode, and a lot of problems.
 
 ----
+
+:data-x: r-1600
+:data-y: r-1000
 
 Practical Experiences
 =====================
@@ -522,6 +553,10 @@ Practical Experiences
     Let me first explain what Deliverence and Diazo does.
 
 ----
+
+:data-x: r1600
+:data-y: r0
+
 
 Deliverance
 ===========
@@ -598,6 +633,10 @@ https://caniusepython3.com/
 
 ----
 
+:data-x: r0
+:data-y: r-1000
+
+
 Adding Python 3 support to collective.checkdocs
 ===============================================
 
@@ -613,6 +652,9 @@ Adding Python 3 support to collective.checkdocs
     Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
 
 ----
+
+:data-x: r-1600
+:data-y: r0
 
 Tool 2: 2to3
 ============
@@ -644,6 +686,9 @@ Time spent: ~4h
 
 ----
 
+:data-x: r0
+:data-y: r-1000
+
 Adding Python 3 support to repoze.xmliter
 =========================================
 
@@ -656,6 +701,9 @@ Adding Python 3 support to repoze.xmliter
     This as we know, make it a Tricky Module.
 
 ----
+
+:data-x: r1600
+:data-y: r0
 
 Tool 3a: Tox
 ============
@@ -750,6 +798,9 @@ Time spent: < 6h
 
 ----
 
+:data-x: r0
+:data-y: r-1000
+
 Adding Python 3 support to Diazo
 ================================
 
@@ -757,6 +808,11 @@ Adding Python 3 support to Diazo
 
     Now time had come to Diazo itself.
     And then it's time for another tool, futurize!
+
+----
+
+:data-x: r-1600
+:data-y: r0
 
 Tool 4: Futurize
 ================
@@ -786,8 +842,8 @@ Tool 4: Futurize
 
 ----
 
-Tool 4: Futurize
-================
+Running a single fixer
+======================
 
 .. code::
 
@@ -809,8 +865,11 @@ Tool 4: Futurize
 
 ----
 
-Updating the documentation
-==========================
+:data-x: r0
+:data-y: r-1000
+
+Updating the Diazo documentation
+================================
 
 .. note::
 
@@ -822,6 +881,9 @@ Updating the documentation
 
 
 ----
+
+:data-x: r1600
+:data-y: r0
 
 Updating the documentation
 ==========================
@@ -880,6 +942,9 @@ Switching from Paster: < 6h
 
 ----
 
+:data-x: r0
+:data-y: r1000
+
 Total time: Less than 20 hours!
 ===============================
 
@@ -930,10 +995,18 @@ You can do it!
 
 ----
 
+:data-scale: 30
+:data-x: 12000
+:data-y: 2000
+
 Questions?
 ==========
 
 ----
+
+:data-scale: 1
+:data-x: 12000
+:data-y: -2000
 
 Thanks!
 =======
