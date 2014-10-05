@@ -178,10 +178,10 @@ Keyword only arguments
 .. code::
 
     >>> def foo(a, *args, b, **kw):
-    ...   print(a, b, args, kw)
+    ...   print(a, args, b, kw)
 
     >>> foo(1, 2, 3, b=4, c=5)
-    1 4 (2, 3) {'c': 5}
+    1 (2, 3) b {'c': 5}
 
 .. note::
 
