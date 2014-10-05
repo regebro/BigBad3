@@ -1,6 +1,7 @@
 :skip-help: true
 :title: Who's Afraid of the Big Bad 3
 :auto-console: true
+:css: css/slides.css
 
 ----
 
@@ -152,8 +153,6 @@ You want Python 3
 
 Although you might not know it yet
 ----------------------------------
-
-(Bits of this shamelessly ripped from Aaron Meurer's talk)
 
 ----
 
@@ -557,6 +556,30 @@ https://caniusepython3.com/
 
 .. code::
 
+    $ caniusepython3 --project Plone
+
+    You need 170 projects to transition to Python 3.
+    Of those 170 projects, 136 has no direct dependencies blocking its transition:
+
+      z3c.formwidget.query (which is blocking plone.app.z3cform, which is blocking plone.app.caching, which is blocking plone)
+      zope.globalrequest (which is blocking plone.app.z3cform, which is blocking plone.app.caching, which is blocking plone)
+      plone.cachepurging (which is blocking plone.app.caching, which is blocking plone)
+      z3c.caching (which is blocking plone.caching, ....
+
+.. note::
+
+    This is both a command line tool and a website.
+    It's not perfect, but it's helpful as a way to evaluate the application.
+
+----
+
+Tool 1: caniusepython3
+======================
+
+https://caniusepython3.com/
+
+.. code::
+
     $ caniusepython3 --project diazo
 
     You need 3 projects to transition to Python 3.
@@ -566,9 +589,6 @@ https://caniusepython3.com/
       experimental.cssselect (which is blocking diazo)
 
 .. note::
-
-    This is both a command line tool and a website.
-    It's not perfect, but it's helpful as a way to evaluate the application.
 
     In this case it turns out that experimental.cssselect works under Python 3, but does not declare it.
 
@@ -917,3 +937,8 @@ Questions?
 
 Thanks!
 =======
+
+Props to Aaron Meurer's talk
+
+"`10 awesome features of Python that you can't use because you refuse to upgrade to Python 3
+<http://asmeurer.github.io/python3-presentation/slides.html>`_"
