@@ -1,6 +1,6 @@
 :skip-help: true
 :title: Who's Afraid of the Big Bad 3
-:auto-console: false
+:auto-console: true
 :css: css/slides.css
 
 ----
@@ -15,16 +15,16 @@ PyCon Ireland, Dublin 2014
 
 ----
 
-You will have to spend hundreds of man-hours!
-=============================================
-
-----
-
 Who wants Python 3 anyway?
 ==========================
 
 Python 2 is good enough!
 ------------------------
+
+----
+
+You will have to spend hundreds of man-hours!
+=============================================
 
 ----
 
@@ -38,13 +38,13 @@ Python 3 was a mistake!
 
 ----
 
-Everything breaks!
-==================
+No other language ever break backwards compatibility!
+=====================================================
 
 ----
 
-No other language ever break backwards compatibility!
-=====================================================
+Everything breaks!
+==================
 
 ----
 
@@ -70,22 +70,6 @@ Or?
 
 .. note::
 
-    In August I saw Armin Ronacher tweet about compiling early versions of Python.
-    It took a bit of effort and even then Python apparently crashed on exit.
-    Is C then really backwards compatible?
-    What does backwards compatible mean?
-
-    Well it doesn't mean that code will continue to run forever.
-    What it really means is that when it breaks, we can fix it so that it runs on both the old and the new version.
-    And with Python 3 we need hacks and compatibility layers for that, so we say it's not backwards compatible.
-    But that was for comparing Python 3.0 to Python 2 in general.
-    With Python 3.3 and Python 2.7, it's not so clear.
-    You can write code that runs on both quite easily.
-
-----
-
-.. note::
-
     Not all code breaks, but yes, every non-trivial package is likely to break.
     But that does not mean it's hard to fix, and I'll look at that later.
 
@@ -93,27 +77,33 @@ Or?
 
 .. note::
 
+    In August I saw Armin Ronacher tweet about compiling early versions of Python.
+    It took a bit of effort and even then Python apparently crashed on exit.
+    Is C then really backwards compatible?
+    Code will not continue to run forever without change.
+
+    But yes, they have a point, changes this big are unusual, perhaps unheard of.
+
+----
+
+.. note::
+
+    Could Python 3 have been backwards compatible?
+
+    No.
     There was several mistakes in Python 2 that could only be fixed by breaking backwards compatibility.
+    The biggest of these is of course the way Unicode was handled.
+    Another example is that you can compare strings and numbers.
 
-    * Floor division
+    Most other mistakes has been handled by adding a second way of doing it.
+    But some things that they wanted to change could not be done that way.
+    Backwards compatibility had to be broken.
 
-    * Exception syntax
+    And then it was decided to also clean up the cases where there were two ways of doing things, like range and xrange.
+    Because there is a big reason that Python is popular: Python fits your brain.
+    And if we want Python to continue to be everyones favourite language, it must continue to do that.
 
-    * Comparing strings and numbers.
-
-    * Unicode
-
-    C++ has 84 keywords, Python has 33.
-    This is a big reason that Python is popular: Python fits your brain.
-    And if we want Python to continue to be everyones favourite language, that simplicity must remain.
-
-    C++ 11 had 10 new keywords.
-    Python 3 had only one really new keyword, nonlocal.
-    False, True and None was made keywords as well, but they existed before, so they don't count.
-    It also had two keywords taken away (exec and print).
-
-    So I don't think Python 3 was a mistake.
-    I think it's necessary to keep is small and understandable.
+    So no, I don't think Python 3 was a mistake.
 
 ----
 
@@ -138,16 +128,17 @@ Time to Third-party!
 .. note::
 
     165 of 200 are not too shabby.
+
     And 3 packages (Paste, python-cloudfiles, ssh) is deprecated and will not be ported.
-    6 packages (supervisor, fabric, Deliverance, sentry, tiddlywebplugins.tiddlyspace, flexget) is not libraries,
-    but applications so you don't really need Python 3 support very much.
+
+    6 packages are not libraries, but applications so you don't really need Python 3 support very much.
 
     So really, it's only 26 of the top 200 packages that still need to support Python 3.
     And work is ongoing for most of them.
 
 ----
 
-:data-x: r-1600
+:data-x: r-3200
 :data-y: r-1000
 
 ----
@@ -161,6 +152,10 @@ You want Python 3!
 Although you might not know it yet
 ----------------------------------
 
+.. note::
+
+    Here are just some of the goodies in Python 3
+
 ----
 
 Extended Iterable Unpacking
@@ -168,13 +163,14 @@ Extended Iterable Unpacking
 
 .. code::
 
-    >>> first, second, *rest, last = "a b c d e f".split()
+    >>> first, second, *rest, last = \
+    ...     "a b c d e f".split()
     >>> first, second, last
     ('a', 'b', 'f')
 
 .. note::
 
-    The `*rest` bit will suck up anything that doesn't end up in any other variables.
+    The `*rest` bit will take anything that doesn't end up in any other variables.
     You can only have one `*rest` per line, of course, but you can have both a first and a second, etc.
 
 ----
@@ -193,7 +189,11 @@ Keyword only arguments
 .. note::
 
     This looks like the Extended Iterable Unpacking!
+    And it works in a similar way.
+    Another example of how Python fits your brain.
+
     The main effect of that is that you HAVE to pass in b as a keyword paremeter.
+    `*args` will eat anything else.
 
 ----
 
@@ -202,24 +202,20 @@ Chained exceptions
 
 .. code::
 
-    >>> try:
-    ...     1/0
-    ... except Exception as e:
-    ...     raise KeyError("wut?") from e
-    Traceback (most recent call last):
-      File "<stdin>", line 2, in <module>
-    ZeroDivisionError: division by zero
+    >>> raise KeyError("wut?") from ZeroDivisionError()
+    ZeroDivisionError
 
     The above exception was the direct cause of the following exception:
 
     Traceback (most recent call last):
-      File "<stdin>", line 4, in <module>
+      File "<stdin>", line 1, in <module>
     KeyError: 'wut?'
 
 .. note::
 
     In Python 2, if you raise an exception during exception handling, the original exception is lost.
     In Python 3 you can chain them, and get both tracebacks, which is really handy for debugging.
+
     You don't actually have to explicitly chain them in this case, they will be implicitly chained.
     But raise from will chain exceptions even when it's not in a try/except case.
 
@@ -228,18 +224,37 @@ Chained exceptions
 Better OS Exceptions
 ====================
 
+BlockingIOError
+ChildProcessError
+ConnectionError
+BrokenPipeError
+ConnectionAbortedError
+ConnectionRefusedError
+ConnectionResetError
+FileExistsError
+FileNotFoundError
+InterruptedError
+IsADirectoryError
+NotADirectoryError
+PermissionError
+ProcessLookupError
+TimeoutError
+
 .. note::
 
     Is Python 2, loads of errors are hidden behind the OSError exceptions.
-    In Python 3,3, you have many separate exceptions, which all inherit from OSerror.
+    In Python 3.3, you have many separate exceptions, which all inherit from OSerror.
     For example you can now get a FileExistsError and a NotADirectoryError.
     This makes it much simpler to handle different errors separately.
-    Also other operating system errors like IOError, are also now subclasses of OSError.
 
 ----
 
 File handle warnings
 ====================
+
+.. code::
+
+    __main__:1: ResourceWarning: unclosed file
 
 .. note::
 
@@ -250,6 +265,15 @@ File handle warnings
 
 Yield from
 ==========
+
+.. code::
+
+    >>> def my_generator():
+    ...     yield from range(1,5)
+    ...     yield from range(10,15)
+    ...
+    >>> list(my_generator())
+    [1, 2, 3, 4, 10, 11, 12, 13, 14]
 
 .. note::
 
@@ -285,31 +309,27 @@ asyncio
 
     There are several new modules in later versions of Python 3.
     Most of them have backports so you can use them anyway.
-    I think enum perhaps is the most interesting one there.
 
-    But one does not have a Python 2 backport, and that's asyncio, previously known as Tulip.
+    But one does not have a Python 2 backport, and that's asyncio.
+    It's basically like Twisted, Gevent or Tornado, but with generators.
     It seems very cool, and you need Python 3.3 or later for that.
 
 ----
 
-:data-x: r-1600
+:data-x: r1600
 :data-y: r-9000
 
 .. note::
 
     Well, this really depends on the code you need to fix, and how much code of course.
-    But I have added Python 3 support to a whole bunch of libraries, and perhaps I have spent hundreds of hours on this.
 
-    Well, no, not perhaps, I have spent hundreds of man hours on it.
-    But these were some really hard libraries to move to Python 3, and I ported them to Python 3.0 or 3.1,
-    which are much harder to port to than Python 3.3 and later.
-    I also needed them to run on Python 2.5 or even Python 2.4, adding a whole extra player of problems.
-
-    So this might have been True in 2008 or 2009, both because you needed to support Python 2.4 and Python 3.1,
+    But essentially this might have been True in 2008 or 2009,
+    both because you needed to support Python 2.4 and Python 3.1,
     but also because less libraries were available,
     so you needed to port more libraries that you didn't write.
 
     But today the situation is very different.
+    Let's look at that.
 
 ----
 
@@ -368,10 +388,10 @@ If you need Python 2 compatibility
 
 .. code:: python
 
-    from __future__ import division
-    from __future__ import print__function
-
-    print("Three halves is written", 3/2, "with decimals.")
+    >>> from __future__ import division
+    >>> from __future__ import print_function
+    >>> print("Three halves is written", 3/2, "with decimals.")
+    Three halves is written 1.5 with decimals.
 
 .. note::
 
@@ -502,13 +522,11 @@ Bytes/Strings/Unicode
     And the biggest issue is bytes/strings/unicode.
 
     But avoiding strings, bytes and Unicode is less easy.
+
     And the biggest issue is that the API for bytes and strings are slightly different.
     For example, if you iterate over a string, the values you get are one-character strings.
     However, if you iterate over a bytes string, you get integers!
-    There are other differences as well, and this makes it hard to support both bytes and strings with the same API,
-    which is something you often want to do.
-    You get similar problems with supporting both strings and Unicode under Python 2.
-    For example, the new io.StringIO class will only work with Unicode.
+    There are other differences as well, and this makes it hard to support both bytes and strings with the same API.
 
 ----
 
@@ -522,10 +540,7 @@ You gotta keep'em separated!
 
     This means that you need to always cleanly separate when you work with binary data,
     and when you work with textual data.
-    Don't use the same variables for both Unicode text and binary data, if you can avoid it.
-
-    In Python 2 you often did not need to make such a separation.
-    That led to a lot of confusion with regards to Unicode, and a lot of problems.
+    Don't use the same variables or functions for both Unicode text and binary data, if you can avoid it.
 
 ----
 
@@ -561,6 +576,8 @@ Practical Experiences
 Deliverance
 ===========
 
+.. image:: images/diazo-concept.png
+
 .. note::
 
     Deliverence and Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
@@ -573,6 +590,8 @@ Deliverance
 
 Diazo
 =====
+
+.. image:: images/diazo-concept.png
 
 .. note::
 
@@ -591,40 +610,19 @@ https://caniusepython3.com/
 
 .. code::
 
-    $ caniusepython3 --project Plone
-
-    You need 170 projects to transition to Python 3.
-    Of those 170 projects, 136 has no direct dependencies blocking its transition:
-
-      z3c.formwidget.query (which is blocking plone.app.z3cform, which is blocking plone.app.caching, which is blocking plone)
-      zope.globalrequest (which is blocking plone.app.z3cform, which is blocking plone.app.caching, which is blocking plone)
-      plone.cachepurging (which is blocking plone.app.caching, which is blocking plone)
-      z3c.caching (which is blocking plone.caching, ....
-
-.. note::
-
-    This is both a command line tool and a website.
-    It's not perfect, but it's helpful as a way to evaluate the application.
-
-----
-
-Tool 1: caniusepython3
-======================
-
-https://caniusepython3.com/
-
-.. code::
-
     $ caniusepython3 --project diazo
 
     You need 3 projects to transition to Python 3.
-    Of those 3 projects, 2 has no direct dependencies blocking its transition:
+    Of those 3 projects, 2 has no direct
+    dependencies blocking its transition:
 
       repoze.xmliter (which is blocking diazo)
       experimental.cssselect (which is blocking diazo)
 
 .. note::
 
+    This is both a command line tool and a website.
+    It's not perfect, but it's helpful as a way to evaluate the application.
     In this case it turns out that experimental.cssselect works under Python 3, but does not declare it.
 
     So I checkout out repoze.xmliter, which turns out to use a package called collective.checkdocs that didn't support Python 3.
@@ -643,13 +641,7 @@ Adding Python 3 support to collective.checkdocs
 .. note::
 
     collective.checkdocs is a small utility to check that your package description renders to HTML properly.
-
-    The collective.checkdocs source is on the Plone Collective svn server,
-    which is in read only mode, so I need to first migrate it to the collective repo on github.
-    I started that process (svn2git takes hours to run on that repository, it's huge)
-    and I mailed the original author to make sure that he is OK with it.
-
-    Once I got the OK from the original author I then added some simple tests to the module as it had no tests.
+    I mailed the original author to ask for permission, and I added some simple tests to the module as it had no tests.
 
 ----
 
@@ -682,7 +674,7 @@ Time spent: ~4h
 
 .. note::
 
-    Total time spent, including setting up Tox and then not using it anyway: Around 4 hours.
+    Total time spent, including some false starts and some problems I had with unrelated tools: Around 4 hours.
 
 ----
 
@@ -699,6 +691,15 @@ Adding Python 3 support to repoze.xmliter
 
     Not the most exiting module on Cheeseshop, but it is interesting for this talk, as it needs to handle both binary data and text!
     This as we know, make it a Tricky Module.
+
+    So how did I port it?
+    This time 2to3 made a lot of changes, and of course broke the module under both Python 2 and Python 3.
+    And trying to figure out if it was the tests that were broken or the module was very hard.
+    So I ended up starting over.
+
+    Then, I ran the tests under Python 3, and fixed problem by problem, manually.
+    And efter each fix, I checked to make sure it was still running under Python 2.
+    And that brings us to Tool 3.
 
 ----
 
@@ -762,15 +763,17 @@ The Unicode problem
     if sys.version_info > (3,):
         unicode = str
 
-    doctype_re_b = re.compile(b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
-    doctype_re_u = re.compile(u"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
-
-    ...
+    doctype_re_b = re.compile(
+        b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
+    doctype_re_u = re.compile(
+        u"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
 
     if isinstance(result, unicode):
-        result, subs = doctype_re_u.subn(self.doctype, result, 1)
+        result, subs = doctype_re_u.subn(
+            self.doctype, result, 1)
     else:
-        result, subs = doctype_re_b.subn(self.doctype.encode(), result, 1)
+        result, subs = doctype_re_b.subn(
+            self.doctype.encode(), result, 1)
 
 .. note::
 
@@ -1005,7 +1008,7 @@ Questions?
 ----
 
 :data-scale: 1
-:data-x: 12000
+:data-x: 13000
 :data-y: -2000
 
 Thanks!
