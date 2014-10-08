@@ -215,7 +215,8 @@ Chained exceptions
     >>> raise KeyError("wut?") from ZeroDivisionError()
     ZeroDivisionError
 
-    The above exception was the direct cause of the following exception:
+    The above exception was the direct cause of
+    the following exception:
 
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
@@ -991,19 +992,23 @@ Been there, done that!
 You can do it!
 ==============
 
+.. image:: images/arthur.jpg
+
 ----
 
 :data-scale: 30
-:data-x: 12000
-:data-y: 2000
+:data-x: 16000
+:data-y: 9000
 
 Questions?
 ==========
 
+.. image:: images/questions.jpg
+
 ----
 
 :data-scale: 1
-:data-x: 14000
+:data-x: 13000
 :data-y: -4000
 
 Thanks!
