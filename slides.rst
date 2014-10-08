@@ -1,6 +1,6 @@
 :skip-help: true
 :title: Who's Afraid of the Big Bad 3
-:auto-console: true
+:auto-console: false
 :css: css/slides.css
 
 ----
@@ -12,6 +12,14 @@ Lennart Regebro
 ---------------
 
 PyCon Ireland, Dublin 2014
+
+----
+
+<Cue dramatic music!>
+=====================
+
+.. image:: images/giant.jpg
+
 
 ----
 
@@ -53,8 +61,10 @@ Python 3 is really a new language!
 
 ----
 
-Or?
-===
+Doesn't anyone listen to us?
+============================
+
+.. image:: images/repressed.jpg
 
 ----
 
@@ -224,21 +234,16 @@ Chained exceptions
 Better OS Exceptions
 ====================
 
-BlockingIOError
-ChildProcessError
-ConnectionError
-BrokenPipeError
-ConnectionAbortedError
-ConnectionRefusedError
-ConnectionResetError
-FileExistsError
-FileNotFoundError
-InterruptedError
-IsADirectoryError
-NotADirectoryError
-PermissionError
-ProcessLookupError
-TimeoutError
+.. code::
+
+           BlockingIOError ChildProcessError
+           ConnectionError BrokenPipeError
+    ConnectionAbortedError ConnectionRefusedError
+      ConnectionResetError FileExistsError
+         FileNotFoundError InterruptedError
+         IsADirectoryError NotADirectoryError
+           PermissionError ProcessLookupError
+              TimeoutError
 
 .. note::
 
@@ -429,6 +434,8 @@ So what IS hard?
 API changes
 ===========
 
+.. image:: images/runaway.jpg
+
 .. note::
 
     If you need to change your libraries API to be Python 3 compatible, that's a pain.
@@ -516,6 +523,8 @@ Example 2: icalendar
 Bytes/Strings/Unicode
 =====================
 
+.. image:: images/handgrenade.jpg
+
 .. note::
 
     And you may then wonder what it is that prompts some influential heavyweights to complain so much about Python 3.
@@ -554,39 +563,18 @@ Practical Experiences
 
     When preparing for this talk I decided to look at the current state of Python 3 support.
     I wanted to know how difficult it would typically be to help port the libraries you depend on.
-    To do that I needed to port some package that I didn't already know intimately, and decided on Diazo.
 
-    I picked Diazo because I looked at the Python Wall of Superpowers. https://python3wos.appspot.com/
-    Most of the modules support Python 3 already.
-    And those who do not often already have Python 3 support efforts.
+    To do that I needed to port some package that I didn't already know intimately,
+    that did webby stuff that required both Unicode and Bytes handling,
+    which needed both Python 2 and Python 3 support,
+    and which nobody had tried to add Python 3 support already.
 
-    But far down I found "Deliverence".
-    Deliverence doens't have Python 3 support and there are two reasons for that.
-    One is that it's a standalone program, and not a library, so it not supporting Python 3 is not a big problem.
-    The other is that although less popular, Diazo is generally a better alternative, which is why I decided to port Diazo.
-
-    Let me first explain what Deliverence and Diazo does.
+    And I found Diazo.
 
 ----
 
 :data-x: r1600
 :data-y: r0
-
-
-Deliverance
-===========
-
-.. image:: images/diazo-concept.png
-
-.. note::
-
-    Deliverence and Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
-    It means you can have a designer create the design as static HTML and then you can map your dynamic site into that design without even modifying your site.
-    So you can style your PHP site or your Plone site without actually knowing either PHP or Plone.
-    Brilliant! We've used it on pretty much any site I've been involved with the last 4 years.
-
-
-----
 
 Diazo
 =====
@@ -595,7 +583,14 @@ Diazo
 
 .. note::
 
-    Diazo takes the same concepts and the same rule syntax as Deliverence, but it actually compiles the rules into XSLT.
+    Diazo takes two HTML pages and maps bits of one page into another page according to a rule-set.
+    It means you can have a designer create the design as static HTML
+    and then you can map your dynamic site into that design without even modifying your site.
+    So you can style your PHP site or your Plone site without actually knowing either PHP or Plone.
+    Brilliant! We've used it on pretty much any site I've been involved with the last 4 years.
+
+    This principle was first made by another application called called Deliverence,
+    but Diazo implements it by compiling the rules into XSLT.
     You can then let nginx or apache do this mapping.
     Or you can use the included WSGI server, or you can use it as a library inside your web framework.
 
@@ -1008,8 +1003,8 @@ Questions?
 ----
 
 :data-scale: 1
-:data-x: 13000
-:data-y: -2000
+:data-x: 14000
+:data-y: -4000
 
 Thanks!
 =======
