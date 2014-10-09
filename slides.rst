@@ -554,8 +554,15 @@ You gotta keep'em separated!
 
 ----
 
-:data-x: r-1600
+:data-x: r-3200
 :data-y: r-1000
+
+.. image:: images/intermission.jpg
+
+----
+
+:data-x: r1600
+:data-y: r0
 
 Practical Experiences
 =====================
@@ -996,9 +1003,8 @@ You can do it!
 
 ----
 
-:data-scale: 30
-:data-x: 16000
-:data-y: 9000
+:data-x: r1600
+:data-y: r0
 
 Questions?
 ==========
@@ -1007,14 +1013,17 @@ Questions?
 
 ----
 
-:data-scale: 1
-:data-x: 13000
-:data-y: -4000
+:data-x: r0
+:data-y: r-1000
 
 Thanks!
 =======
 
-Props to Aaron Meurer's talk
+Props to
 
-"`10 awesome features of Python that you can't use because you refuse to upgrade to Python 3
-<http://asmeurer.github.io/python3-presentation/slides.html>`_"
+* Aaron Meurer's talk "`10 awesome features of Python that you can't use because you refuse to upgrade to Python 3
+  <http://asmeurer.github.io/python3-presentation/slides.html>`_"
+
+* Loads of People on Twitter
+
+* PyCon Ireland for inviting me
