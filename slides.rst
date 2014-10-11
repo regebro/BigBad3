@@ -15,6 +15,9 @@ PyCon Ireland, Dublin 2014
 
 ----
 
+:data-x: r0
+:data-y: r1000
+
 <Cue dramatic music!>
 =====================
 
@@ -22,6 +25,9 @@ PyCon Ireland, Dublin 2014
 
 
 ----
+
+:data-x: r1600
+:data-y: r0
 
 Who wants Python 3 anyway?
 ==========================
@@ -88,7 +94,7 @@ Doesn't anyone listen to us?
 .. note::
 
     In August I saw Armin Ronacher tweet about compiling early versions of Python.
-    It took a bit of effort and even then Python apparently crashed on exit.
+    It took a little bit of effort and even then Python apparently crashed on exit.
     Is C then really backwards compatible?
     Code will not continue to run forever without change.
 
@@ -443,7 +449,7 @@ API changes
 
 ----
 
-Example 1: zope.component
+Example 1: zope.interface
 =========================
 
 .. code::
@@ -463,7 +469,7 @@ Example 1: zope.component
 ----
 
 
-Example 1: zope.component
+Example 1: zope.interface
 =========================
 
 .. code::
@@ -518,7 +524,7 @@ Example 2: icalendar
 
 ----
 
-:data-x: r-6400
+:data-x: r-8000
 :data-y: r-1000
 
 Bytes/Strings/Unicode
@@ -554,7 +560,7 @@ You gotta keep'em separated!
 
 ----
 
-:data-x: r-3200
+:data-x: r-1600
 :data-y: r-1000
 
 .. image:: images/intermission.jpg
@@ -634,7 +640,7 @@ https://caniusepython3.com/
 
 ----
 
-:data-x: r0
+:data-x: r-4800
 :data-y: r-1000
 
 
@@ -648,7 +654,7 @@ Adding Python 3 support to collective.checkdocs
 
 ----
 
-:data-x: r-1600
+:data-x: r1600
 :data-y: r0
 
 Tool 2: 2to3
@@ -681,7 +687,7 @@ Time spent: ~4h
 
 ----
 
-:data-x: r0
+:data-x: r-3200
 :data-y: r-1000
 
 Adding Python 3 support to repoze.xmliter
@@ -804,7 +810,7 @@ Time spent: < 6h
 
 ----
 
-:data-x: r0
+:data-x: r-6400
 :data-y: r-1000
 
 Adding Python 3 support to Diazo
@@ -817,7 +823,7 @@ Adding Python 3 support to Diazo
 
 ----
 
-:data-x: r-1600
+:data-x: r1600
 :data-y: r0
 
 Tool 4: Futurize
@@ -871,7 +877,7 @@ Running a single fixer
 
 ----
 
-:data-x: r0
+:data-x: r-3200
 :data-y: r-1000
 
 Updating the Diazo documentation
@@ -948,8 +954,8 @@ Switching from Paster: < 6h
 
 ----
 
-:data-x: r0
-:data-y: r1000
+:data-x: r-4800
+:data-y: r-1000
 
 Total time: Less than 20 hours!
 ===============================
@@ -964,6 +970,35 @@ Total time: Less than 20 hours!
     repoze.xmliter and Diazo has not been release in Python 3 compatible versions yet, but that will happen sooner or later.
 
 ----
+
+:data-x: r-1600
+:data-y: r0
+
+General workflow
+================
+
+1. caniusepython3
+
+2. Make sure you have tests
+
+3. Fix one problem at a time
+
+----
+
+Fixing problems
+===============
+
+1. Run fixers one by one
+
+2. 2to3 or Futurize
+
+3. Review the changes
+
+
+----
+
+:data-x: r0
+:data-y: r1000
 
 Conclusions
 ===========
@@ -1003,19 +1038,6 @@ You can do it!
 
 ----
 
-:data-x: r1600
-:data-y: r0
-
-Questions?
-==========
-
-.. image:: images/questions.jpg
-
-----
-
-:data-x: r0
-:data-y: r-1000
-
 Thanks!
 =======
 
@@ -1027,3 +1049,17 @@ Props to
 * Loads of People on Twitter
 
 * PyCon Ireland for inviting me
+
+----
+
+:data-x: r-1600
+:data-y: r0
+
+Questions?
+==========
+
+.. image:: images/questions.jpg
+
+----
+
+:data-scale: 30
