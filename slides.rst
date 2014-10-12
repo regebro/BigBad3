@@ -23,7 +23,6 @@ PyCon Ireland, Dublin 2014
 
 .. image:: images/giant.jpg
 
-
 ----
 
 :data-x: r1600
@@ -67,14 +66,34 @@ Python 3 is really a new language!
 
 ----
 
-Doesn't anyone listen to us?
-============================
+The core developers don't listen!
+=================================
 
 .. image:: images/repressed.jpg
 
 ----
 
+Or?
+===
+
+.. note::
+
+    Are these things really true?
+    When we weigh Python 3 on the scales of programming, does it weigh only as much as a duck?
+
+----
+
 :data-x: r-1600
+
+.. note::
+
+    Obviously the core programmers listen.
+    They also have spent a lot of time on writing FAQ's and guides,
+    as well as tools to help you to transition to Python 3 smoothly.
+
+    They also listen to the claims that Python 3 was a mistake, however, they disagree.
+
+----
 
 .. note::
 
@@ -87,16 +106,18 @@ Doesn't anyone listen to us?
 .. note::
 
     Not all code breaks, but yes, every non-trivial package is likely to break.
-    But that does not mean it's hard to fix, and I'll look at that later.
+    But that does not mean it's hard to fix.
 
 ----
 
 .. note::
 
+    What does backwards compatible mean?
+    No code on no system will continue to run forever.
+
     In August I saw Armin Ronacher tweet about compiling early versions of Python.
     It took a little bit of effort and even then Python apparently crashed on exit.
     Is C then really backwards compatible?
-    Code will not continue to run forever without change.
 
     But yes, they have a point, changes this big are unusual, perhaps unheard of.
 
@@ -340,9 +361,6 @@ asyncio
     but also because less libraries were available,
     so you needed to port more libraries that you didn't write.
 
-    But today the situation is very different.
-    Let's look at that.
-
 ----
 
 :data-x: r0
@@ -354,6 +372,7 @@ Supporting Python 3 is not so bad
 
 .. note::
 
+    But today the situation is very different.
     Although every package is likely to break in some way, most code will not break.
 
 ----
@@ -393,6 +412,11 @@ Some changes need no handling at all
 
     Other changes typically will not affect you at all, unless you are violating good coding practices.
 
+    For example, the mixing of tabs and spaces in indentation is stricter in Python 3.
+    But you don't use tabs, do you?
+    You just use spaces.
+    Right?
+
 ----
 
 If you need Python 2 compatibility
@@ -407,9 +431,13 @@ If you need Python 2 compatibility
 
 .. note::
 
-    Other changes has explicit forward compatibility, like the new division and the print function.
-    This is useful if you need to keep Python 2 compatibility,
-    which you typically only need if you are adding Python 3 support to a library.
+    Python 2.6 and 2.7 also has a lot of forward compatibility.
+
+    How many here are maintaining a library used by others?
+    That probably needs to keep Python 2 compatibility for a while,
+    and then you need to care about this.
+    Otherwise you can ignore this slide.
+
 
 ----
 
@@ -554,9 +582,12 @@ You gotta keep'em separated!
 
 .. note::
 
-    This means that you need to always cleanly separate when you work with binary data,
-    and when you work with textual data.
-    Don't use the same variables or functions for both Unicode text and binary data, if you can avoid it.
+    If you can keep 8-bit strings and Unicode strings separate.
+    Have separate variables and separate functions.
+
+    However, a lot of the time that's not feasible,
+    for example when it would mean changing your modules API.
+    And then you need to handle it with type checking, I'll get to and example of that later.
 
 ----
 
