@@ -11,7 +11,7 @@ Who's Afraid of the Big Bad 3
 Lennart Regebro
 ---------------
 
-PyCon Ireland, Dublin 2014
+PyCon PL, Szczyrk, 2014
 
 ----
 
@@ -207,8 +207,8 @@ Extended Iterable Unpacking
 
 .. note::
 
-    The `*rest` bit will take anything that doesn't end up in any other variables.
-    You can only have one `*rest` per line, of course, but you can have both a first and a second, etc.
+    The ``*rest`` bit will take anything that doesn't end up in any other variables.
+    You can only have one ``*rest`` per line, of course, but you can have both a first and a second, etc.
 
 ----
 
@@ -230,7 +230,7 @@ Keyword only arguments
     Another example of how Python fits your brain.
 
     The main effect of that is that you HAVE to pass in b as a keyword paremeter.
-    `*args` will eat anything else.
+    ``*args`` will eat anything else.
 
 ----
 
@@ -310,7 +310,7 @@ Yield from
 
 .. note::
 
-    You also have `yield from`, which let's you delegate your generator to a subgenerator.
+    You also have ``yield from``, which let's you delegate your generator to a subgenerator.
     Extremely handy.
 
 ----
@@ -385,9 +385,9 @@ Many changes are handled by 2to3
 
 * Exception syntax
 
-* `print` is a function
+* ``print`` is a function
 
-* `xrange` is gone
+* ``xrange`` is gone
 
 * Standard library reorganisation
 
@@ -765,10 +765,13 @@ Tool 3a: Tox
     It will create a virtualenv for each Python version you want to support and run the tests with it.
     This makes for a quick way to run tests under multiple Python versions.
 
-    A small caveat emptor: I have loads of problems with it not working for certain Python version etc.
-    I think it used to be good but seems to have become quite brittle,
-    but I haven't had time to look into it.
-
+    A small caveat emptor: I have loads of problems with it, mostly not reproducible things.
+    It seems to not want to work reliably with Python 3.4.
+    Someone said yesterday that it will not work under Python 3.4 unless you run Python 2.7 first, etc.
+    Also, it no longer supports Python 2.5, which I find annoying.
+    It's not that I need Python 2.5 support, but sometimes I fix bugs in modules that support Python 2.5,
+    and uses tox, and since I now have a new version of tox and virtualenv,
+    I can't use it to test for Python 2.5 support any longer.
 
 ----
 
@@ -792,6 +795,26 @@ And a small script:
 
     In that case you can simply create virtualenvs for the Python versions you support, and make a small script.
     If you have many tests you may need to scroll back to see if the tests passed or not but it works.
+
+    Because tox gave me problems, and replacing it with a trivial shell script is doable,
+    I started wondering exactly what was so complex about tox.
+    And I started investigating and trying things out, and the result was a tool I call "Spiny"
+
+
+----
+
+Tool 3c: Spiny
+==============
+
+.. image:: images/SpinyNorman.png
+
+.. note::
+
+    After the giant hedgehod, Spiny Norman.
+
+    It's in alpha state, I just got it usable yesterday evening.
+    But if you have problems with tox, try Spiny.
+    Or try it anyway I'd like feedback.
 
 ----
 
@@ -1079,7 +1102,7 @@ Props to
 
 * Loads of People on Twitter
 
-* PyCon Ireland for inviting me
+* PyCon Ireland for inviting me and hence forcing me to write a talk
 
 ----
 
