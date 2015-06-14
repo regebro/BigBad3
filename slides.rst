@@ -335,6 +335,29 @@ Python 3
 
 ----
 
+
+.. code::
+
+    >>> φ = (1 + sqrt(5))/2
+    >>> φ
+    1.618033988749895
+
+----
+
+.. code::
+
+    >>> with Popen(command, stdout=PIPE) as process:
+    ...     print(process.stdout.read())
+
+    >>> with TemporaryFile() as tmpf:
+    ...     # do something
+
+.. note::
+
+    More things are context managers, like the above Popen, TemporaryFile and TemporaryDirectory.
+
+----
+
 asyncio
 =======
 
